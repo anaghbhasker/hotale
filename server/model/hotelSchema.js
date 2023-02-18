@@ -54,6 +54,8 @@ const hotelSchema= new mongoose.Schema({
         type:Number
     },
     isApproved:{type:Boolean, default:false},
+    isAdminBanned:{type:Boolean, default:false},
+    isOwnerStoped:{type:Boolean, default:false},
 },
 {
     timestamps:true,

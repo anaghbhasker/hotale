@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import Hotel from "../../Assets/hotel.png";
 import Compensation from "../../Assets/compensation.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { editHotel, getEdithotel } from "../../config/Service/OwnerRequest";
+import {
+  deletehotel,
+  editHotel,
+  getEdithotel,
+} from "../../config/Service/OwnerRequest";
 
 function EditHotel() {
   const location = useLocation();
   const hotelId = location.state.id;
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const [hotel, setHotel] = useState();
 
@@ -30,19 +34,17 @@ function EditHotel() {
     setRemoveFesility(val);
   }
 
-
   useEffect(() => {
     async function invoke() {
-      
       const responseData = await getEdithotel(hotelId);
-      if(responseData.status==="success"){
+      if (responseData.status === "success") {
         setHotel(responseData.hotel);
-      }else{
-        navigate('/owner/login')
+      } else {
+        navigate("/owner/login");
       }
     }
     invoke();
-  },[hotelId,navigate]);
+  }, [hotelId, navigate]);
 
   async function sendJobPost(e) {
     e.preventDefault();
@@ -59,7 +61,7 @@ function EditHotel() {
     }
 
     let obj = {
-      hotelId:hotelId,
+      hotelId: hotelId,
       hotelname: data.get("hotelname"),
       description: data.get("hoteldescription"),
       totalrooms: data.get("totalrooms"),
@@ -92,24 +94,24 @@ function EditHotel() {
         if (mob.test(obj.contact.toString())) {
           setHotelErr(false);
           setHotelerrMessage("");
-          const data=await editHotel(obj)
-          if(data.status==="success"){
+          const data = await editHotel(obj);
+          if (data.status === "success") {
             Swal.fire(
-              'Good job!',
-              'Success fully updated your hotel',
-              'success'
-            ).then((result)=>{
-              navigate('/owner/showHotels')
-            })
-          }else{
+              "Good job!",
+              "Success fully updated your hotel",
+              "success"
+            ).then((result) => {
+              navigate("/owner/showHotels");
+            });
+          } else {
             Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              footer: '<a href="">Why do I have this issue?</a>'
-            }).then((result)=>{
-              navigate('/owner/showHotels')
-            })
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+              footer: '<a href="">Why do I have this issue?</a>',
+            }).then((result) => {
+              navigate("/owner/showHotels");
+            });
           }
         } else {
           setHotelErr(true);
@@ -125,6 +127,28 @@ function EditHotel() {
     }
   }
 
+  const deleteHotel = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this hotel!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const data = await deletehotel(hotelId);
+        console.log(data);
+        Swal.fire("Deleted!", "Your hotel has been deleted.", "success").then(
+          () => {
+            navigate("/owner/showHotels");
+          }
+        );
+      }
+    });
+  };
+
   return (
     <div>
       <div className="bg-white pb-4 ml-2 mt-2 mr-5 rounded-2xl">
@@ -133,10 +157,44 @@ function EditHotel() {
             <h4 className="font-bold text-lg">
               You can change your hotel information{" "}
             </h4>
+
+
+
+            {hotel?.isAdminBanned ? (
+              <div className="flex">
+                <svg
+                  className="fill-current h-6 w-6 text-red-500 mr-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+                </svg>
+                <p className="text-red-500 font-bold text-xs italic">
+                  Your hotel have been banned for some suspicion..Please contact
+                  to admin for more details
+                </p>
+              </div>
+            ) : (
+              <p className="text-red-500 font-bold text-xs italic">
+                  
+                </p>
+            )}
+
+
+
           </div>
           <div className="ml-auto mt-1 mr-4">
             <img src={Hotel} alt={"loading"} height={40} width={40} />
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              deleteHotel();
+            }}
+            className="bg-red-500 text-white px-5 font-bold rounded py-2 hover:text-red-600 hover:bg-black"
+          >
+            Delete hotel
+          </button>
         </div>
       </div>
 

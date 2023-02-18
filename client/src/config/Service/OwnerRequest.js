@@ -83,3 +83,59 @@ export const editHotel=async(obj)=>{
         return error.response.data.error;
     }
 }
+
+export const deletehotel=async(id)=>{
+    try {
+        const response=await Axiosinstance.get(`/owner/deleteHotel/${id}`,{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const hotelbann=async(id)=>{
+    try {
+        const response=await Axiosinstance.get(`/owner/hotelBann/${id}`,{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const fullDetails=async()=>{
+    try {
+        const response=await Axiosinstance.get('/owner/fullDetails',{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const editProfile=async (obj)=>{
+    try {
+        const response =await Axiosinstance.post('/owner/editProfile',obj,{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

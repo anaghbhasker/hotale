@@ -168,3 +168,56 @@ export async function editHotel(req,res,next){
         console.log(error)
     }
 }
+
+export async function deleteHotel(req,res,next){
+    try {
+        const hotelId=req.params.id
+        await hotelmodel.findByIdAndDelete(hotelId)
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function hotelBann(req,res,next){
+    try {
+        const hotelId=req.params.id
+        const hotel=await hotelmodel.findById(hotelId)
+        hotel.isOwnerStoped=!hotel.isOwnerStoped
+        await hotel.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function fullDetails(req,res,next){
+    try {
+        const ownerId=req.ownerId
+        const owner=await ownermodel.findOne({_id:ownerId})
+        res.json({owner:owner})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function editProfile(req,res,next){
+    try {
+        const ownerId=req.ownerId
+        let obj=req.body
+        await ownermodel.findByIdAndUpdate(ownerId,{
+            firstname:obj.firstname,
+            lastname:obj.lastname,
+            email:obj.email,
+            phone:obj.phone,
+            city:obj.city,
+            state:obj.state,
+            zip:obj.zip,
+            profilephoto:obj.profilephoto,
+            coverphoto:obj.coverphoto,
+        })
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -19,6 +19,11 @@ const ownerSchema= new mongoose.Schema({
         trim:true,
         required: true,
     },
+    city:{type:String},
+    state:{type:String},
+    zip:{type:String},
+    profilephoto:{type:String},
+    coverphoto:{type:String},
     isBanned:{type:Boolean, default:false},
     isVerify:{type:Boolean, default:false}
 

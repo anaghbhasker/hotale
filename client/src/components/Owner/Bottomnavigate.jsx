@@ -24,7 +24,7 @@ function Bottomnavigate() {
             <HomeModernIcon className="inline-block mb-1 h-7 "/>
             <span className="tab tab-kategori block text-xs">Hotel Details</span>
         </Link>
-        <Link to={'/owner'} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <Link to={'/owner/profileView'} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
             <UserIcon className="inline-block mb-1 h-7 "/>
             <span className="tab tab-explore block text-xs">My Profile</span>
         </Link>

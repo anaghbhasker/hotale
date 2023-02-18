@@ -12,6 +12,7 @@ import OwnerAddHotelPage from '../pages/Owner/OwnerAddHotelPage'
 import LocationFinderPage from '../pages/Owner/LocationFinderPage'
 import OwnerThanksPage from '../pages/Owner/OwnerThanksPage'
 import OwnerEditHotelPage from '../pages/Owner/OwnerEditHotelPage'
+import OwnerProfilePage from '../pages/Owner/OwnerProfilePage'
 
 function Owner() {
     return (
@@ -42,6 +43,9 @@ function Owner() {
             </Routes>
             <Routes>
                 <Route path='/editHotel' element={<OwnerEditHotelPage/>}/>
+            </Routes>
+            <Routes>
+                <Route path='/profileView' element={<OwnerProfilePage/>}/>
             </Routes>
         </div>
     )

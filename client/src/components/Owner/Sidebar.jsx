@@ -27,7 +27,7 @@ function Sidebar() {
             </Link>
             </div>
             <div>
-            <Link to={'/owner/'}>
+            <Link to={'/owner/profileView'}>
                 <SidebarLinks text='My Profile' Icon={UserIcon} active={false}/>
             </Link>
             </div>
