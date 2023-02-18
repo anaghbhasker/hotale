@@ -1,0 +1,101 @@
+import adminModel from '../model/adminSchema.js'
+import usermodel from "../model/userSchema.js"
+import ownermodel from "../model/ownerSchema.js";
+import hotelmodel from '../model/hotelSchema.js'
+import { generateAdminToken } from '../middlewares/jwt.js'
+
+
+export async function adminLogin(req,res,next){
+    try {
+        let obj=req.body
+        const admin=await adminModel.findOne({email:obj.email})
+        if (admin) {
+            if (admin.password===obj.password) {
+                const token=await generateAdminToken(admin)
+                res.json({status:"success",message:"Successfully logged in",token:token})
+            } else {
+                res.json({status:"failed",message:"Password is not matched"})
+            }
+        } else {
+            res.json({status:"failed",message:"Your email is not registed"})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
+export async function dashBoard(req,res,next){
+    try {
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+export async function getUsers(req,res,next){
+    try {
+        const users=await usermodel.find()
+        res.json({users:users})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getOwners(req,res,next){
+    try {
+        const owners =await ownermodel.find()
+        res.json({owners:owners})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function userBlk(req,res,next){
+    try {
+        const userId=req.params.id
+        const user=await usermodel.findById(userId)
+        user.isBanned=!user.isBanned
+        await user.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function ownerBlk(req,res,next){
+    try {
+        const ownerId=req.params.id
+        const owner=await ownermodel.findById(ownerId)
+        owner.isBanned=!owner.isBanned
+        await owner.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getHotel(req,res,next){
+    try {
+        const hotels=await hotelmodel.find()
+        res.json({status:"success",hotels:hotels})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function hotelStatus(req,res,next){
+    try {
+        const hotelId=req.params.id
+        const hotel= await hotelmodel.findById(hotelId)
+        hotel.isApproved=!hotel.isApproved
+        await hotel.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
