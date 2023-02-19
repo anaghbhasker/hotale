@@ -29,6 +29,10 @@ function AdminShowHotel() {
       }
     }
 
+    const hotelView=async (hotelId)=>{
+      navigate("/admin/hotelView", { state: { id: hotelId } });
+    }
+
 
     return (
         <div>
@@ -128,6 +132,9 @@ function AdminShowHotel() {
 
                 <button
                   type="button"
+                  onClick={()=>{
+                    hotelView(hotel._id)
+                  }}
                   data-dial-toggle="speed-dial-menu-dropdown"
                   aria-controls="speed-dial-menu-dropdown"
                   aria-expanded="false"

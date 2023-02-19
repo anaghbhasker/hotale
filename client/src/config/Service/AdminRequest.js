@@ -110,3 +110,31 @@ export const hotelApprove=async(hotelId)=>{
         return error.response.data.error;
     }
 }
+
+export const getThathotel= async(hotelId)=>{
+    try {
+        const response=await Axiosinstance.get(`/admin/getThatHotel/${hotelId}`,{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const hotelBann=async (hotelId)=>{
+    try {
+        const response=await Axiosinstance.get(`/admin/hotelBann/${hotelId}`,{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

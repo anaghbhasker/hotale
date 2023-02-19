@@ -120,14 +120,15 @@ const LocationFinderPage = () => {
                 </div>
                 <input
                 type="text"
+                placeholder="Please Add your Hotel location"
                 value={place}
                 onChange={handleInput}
                 className="w-full bg-white pl-2 text-base font-semibold outline-0"
-                placeholder=""
                 id=""
                 />
                 <input
                 type="button"
+                
                 onClick={(e)=>{addMark(e)}}
                 value="Add Mark"
                 className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors"

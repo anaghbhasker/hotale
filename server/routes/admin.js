@@ -1,5 +1,5 @@
 import  express  from "express";
-import { adminLogin, dashBoard, getHotel, getOwners, getUsers, hotelStatus, ownerBlk, userBlk } from "../controller/adminController.js";
+import { admInBannHotel, adminLogin, dashBoard, getHotel, getOwners, getThatHotel, getUsers, hotelStatus, ownerBlk, userBlk } from "../controller/adminController.js";
 import { adminJwt } from "../middlewares/jwt.js";
 const router=express.Router();
 
@@ -11,5 +11,7 @@ router.get('/userBlk/:id',adminJwt,userBlk)
 router.get('/ownerBlk/:id',adminJwt,ownerBlk)
 router.get('/getHotels',adminJwt,getHotel)
 router.get('/hotelApprove/:id',adminJwt,hotelStatus)
+router.get('/getThatHotel/:id',adminJwt,getThatHotel)
+router.get('/hotelBann/:id',adminJwt,admInBannHotel)
 
 export default router

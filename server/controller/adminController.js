@@ -99,3 +99,25 @@ export async function hotelStatus(req,res,next){
         console.log(error)
     }
 }
+
+export async function getThatHotel(req,res,next){
+    try {
+        const hotelId=req.params.id
+        const hotel=await hotelmodel.findById(hotelId).populate('ownerId')
+        res.json({hotel:hotel})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function admInBannHotel(req,res,next){
+    try {
+        const hotelId=req.params.id
+        const hotel= await hotelmodel.findById(hotelId)
+        hotel.isAdminBanned=!hotel.isAdminBanned
+        hotel.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}

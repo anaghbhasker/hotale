@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useRef, useEffect } from "react";
 import UserPic from "../../Assets/userP.png";
+import Swal from "sweetalert2";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +9,7 @@ import { editProfile, fullDetails } from "../../config/Service/OwnerRequest";
 import { useNavigate } from "react-router-dom";
 
 function MyProfile() {
-    const navigate=useNavigate()
+  const navigate = useNavigate();
   const [owner, setOwner] = useState();
   let [isOpen, setIsOpen] = useState(false);
   const [coverImage, setCoverImage] = useState(null);
@@ -99,77 +100,95 @@ function MyProfile() {
     const data = new FormData(event.currentTarget);
     let profilephoto;
     let coverphoto;
-    if(profileImage&&coverImage){
-        profilephoto=profileImage
-        coverphoto=coverImage
-    }else{
-        profilephoto=owner.profilephoto
-        coverphoto=owner.coverphoto
+    if (profileImage && coverImage) {
+      profilephoto = profileImage;
+      coverphoto = coverImage;
+    } else {
+      profilephoto = owner.profilephoto;
+      coverphoto = owner.coverphoto;
     }
 
-    let obj={
-        firstname: data.get("firstname"),
-        lastname:data.get("lastname"),
-        email: data.get("email"),
-        phone:data.get("phone"),
-        city:data.get("city"),
-        state:data.get("state"),
-        zip:data.get("zip"),
-        profilephoto:profilephoto,
-        coverphoto:coverphoto
-    }
-    profilephoto=null
-    coverphoto=null
-    if(obj.firstname&&obj.lastname&&obj.email&&obj.phone&&obj.city&&obj.state&&obj.zip){
-        setError(false)
-        setErrMessage("")
-        let regName = /^[a-zA-Z]+$/;
-        let regEmail =/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        let mob = /^([+]\d{2})?\d{10}$/;
-        let zip = /^([+]\d{2})?\d{6}$/;
-        if(regName.test(obj.firstname.toString())){
-            setError(false)
-            setErrMessage("")
-            if(regName.test(obj.lastname.toString())){
-                setError(false)
-                setErrMessage("")
-                if(regEmail.test(obj.email.toString())){
-                    setError(false)
-                    setErrMessage("")
-                    if(mob.test(obj.phone.toString())){
-                        setError(false)
-                        setErrMessage("")
-                        if(zip.test(obj.zip.toString())){
-                            setError(false)
-                            setErrMessage("")
-                            const data= await editProfile(obj)
-                            if(data.status==="success"){
-                                setIsOpen(false)
-                                navigate("/owner/")
-                            }
-                        }else{
-                            setError(true)
-                            setErrMessage("Invalid zip code")
-                        }
-                    }else{
-                        setError(true)
-                        setErrMessage("Enter valid phone number")
-                    }
-                }else{
-                    setError(true)
-                    setErrMessage("Please enter valid email address")
+    let obj = {
+      firstname: data.get("firstname"),
+      lastname: data.get("lastname"),
+      email: data.get("email"),
+      phone: data.get("phone"),
+      city: data.get("city"),
+      state: data.get("state"),
+      zip: data.get("zip"),
+      profilephoto:profilephoto,
+      coverphoto:coverphoto
+    };
+    profilephoto = null;
+    coverphoto = null;
+    if (
+      obj.firstname &&
+      obj.lastname &&
+      obj.email &&
+      obj.phone &&
+      obj.city &&
+      obj.state &&
+      obj.zip
+    ) {
+      setError(false);
+      setErrMessage("");
+      let regName = /^[a-zA-Z]+$/;
+      let regEmail =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      let mob = /^([+]\d{2})?\d{10}$/;
+      let zip = /^([+]\d{2})?\d{6}$/;
+      if (regName.test(obj.firstname.toString())) {
+        setError(false);
+        setErrMessage("");
+        if (regName.test(obj.lastname.toString())) {
+          setError(false);
+          setErrMessage("");
+          if (regEmail.test(obj.email.toString())) {
+            setError(false);
+            setErrMessage("");
+            if (mob.test(obj.phone.toString())) {
+              setError(false);
+              setErrMessage("");
+              if (zip.test(obj.zip.toString())) {
+                setError(false);
+                setErrMessage("");
+                const data = await editProfile(obj);
+                console.log(data);
+                if (data.status === "success") {
+                  Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "Your updation has been saved",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then((result)=>{
+                    setIsOpen(false);
+                    navigate("/owner/");
+                  })
                 }
-            }else{
-                setError(true)
-                setErrMessage("Invalid Lastname!!")
+              } else {
+                setError(true);
+                setErrMessage("Invalid zip code");
+              }
+            } else {
+              setError(true);
+              setErrMessage("Enter valid phone number");
             }
-        }else{
-            setError(true)
-            setErrMessage("Invalid Firstname!!")
+          } else {
+            setError(true);
+            setErrMessage("Please enter valid email address");
+          }
+        } else {
+          setError(true);
+          setErrMessage("Invalid Lastname!!");
         }
-    }else{
-        setError(true)
-        setErrMessage("All field are required!!")
+      } else {
+        setError(true);
+        setErrMessage("Invalid Firstname!!");
+      }
+    } else {
+      setError(true);
+      setErrMessage("All field are required!!");
     }
   };
 
@@ -353,7 +372,6 @@ function MyProfile() {
                                     defaultValue={owner?.phone}
                                   />
                                 </div>
-
 
                                 <div className="mb-4">
                                   <label className="block text-gray-300 text-sm font-bold mb-2">

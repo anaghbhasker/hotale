@@ -6,6 +6,7 @@ import AdminLoginPage from '../pages/Admin/AdminLoginPage'
 import AdminShowOwnerPage from '../pages/Admin/AdminShowOwnerPage'
 import AdminShowUsersPage from '../pages/Admin/AdminShowUsersPage'
 import AdminShowHotelPage from '../pages/Admin/AdminShowHotelPage'
+import AdminHotelView from '../pages/Admin/AdminHotelView'
 
 function Admin() {
   return (
@@ -25,7 +26,9 @@ function Admin() {
         <Routes>
           <Route path='/showHotel' element={<AdminShowHotelPage/>}/>
         </Routes>
-
+        <Routes>
+          <Route path='/hotelView' element={<AdminHotelView/>}/>
+        </Routes>
     </div>
   )
 }
