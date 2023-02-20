@@ -112,3 +112,14 @@ export async function verifyEmail(req,res,next){
         res.status(500).send({message:"Internal Server Error"})
     }
 }
+
+
+export async function getuser(req,res,next){
+    try {
+        const userId=req.userId
+        const user=await usermodel.findById(userId)
+        res.json({user:user})
+    } catch (error) {
+        console.log(error)
+    }
+}

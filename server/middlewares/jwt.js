@@ -33,6 +33,29 @@ export async function verifyToken(token) {
   }
 }
 
+
+export async function userJwt(req, res, next) {
+  const token = req.headers["usertoken"];
+
+  if (!token) {
+    res.send({ status: "failed", message: "You need token" });
+  } else {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        res.json({
+          auth: false,
+          status: "failed",
+          message: "failed to authenticate",
+        });
+      } else {
+        req.userId = decoded._id;
+        next();
+      }
+    });
+  }
+}
+
+
 export async function adminJwt(req, res, next) {
   const token = req.headers["admintoken"];
 

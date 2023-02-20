@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../../Assets/Screenshot 2023-01-29 010123.png";
 import loginPic from "../../../Assets/draw2.webp";
 import { Link, useNavigate } from "react-router-dom";
 import Axiosinstance from "../../../config/Axiosinstance";
@@ -77,7 +76,7 @@ function Login() {
   return (
     <section className="h-screen">
       <ToastContainer />
-      <div className="px-6 h-full text-gray-800">
+      <div className="px-6 text-gray-800">
         <div className="flex xl:justify-center  lg:justify-between justify-center items-center flex-wrap h-full g-6">
           <div className="grow-0 shrink-1   md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0">
             <img src={loginPic} className="w-full" alt="..." />
@@ -85,8 +84,8 @@ function Login() {
           <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 ">
             <form onSubmit={loginForm}>
               <div className="flex flex-row items-center justify-center lg:justify-start">
-                <div className="flex justify-center items-center">
-                  <img src={logo} className="max-w-sm h-auto ml-4" alt="..." />
+                <div className="flex  items-center">
+                    <h3 className="text-sm font-medium leading-6 text-gray-900 mb-4">Welcome to the Hotale user Area!!!</h3>
                 </div>
               </div>
               <div className="mb-6">

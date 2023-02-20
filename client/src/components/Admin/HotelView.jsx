@@ -44,7 +44,7 @@ function HotelView() {
                   onClick={() => {
                     hotelDisable(hotel._id);
                   }}
-                  className="px-4 bg-gray-900 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200  flex justify-between items-center w-full lg:w-72 h-14 text-white hover:bg-gray-700 focus:ring-2 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 dark:hover:bg-gray-100"
+                  className="px-4 bg-gray-900 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100  flex justify-between items-center w-full lg:w-72 h-14 text-white hover:bg-gray-700 focus:ring-2 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 dark:hover:bg-gray-100"
                 >
                   <p className="text-xl font-medium leading-5 ">Remove Ban</p>
                   <img
