@@ -10,8 +10,11 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate=useNavigate()
+
   const [suggestions, setSuggestions] = useState([]);
   const [place,setPlace]=useState(null)
   const [openDate, setOpenDate] = useState(false);
@@ -62,10 +65,7 @@ const handlePickup = async (suggestion) => {
   };
 
   const handleSearch = () => {
-    console.log(place)
-    console.log(date)
-    console.log(options)
-    // navigate("/hotels", { state: { place, date, options } });
+    navigate("/hotels", { state: { place, date, options } });
   };
 
   return (
@@ -88,7 +88,7 @@ const handlePickup = async (suggestion) => {
           Get rewarded for your travels – unlock instant savings of 10% or more
           with a free Lamabooking account
         </p>
-        <button className="headerBtn">Sign in / Register</button>
+        <button onClick={()=>{navigate('/owner/login')}} className="headerBtn">Sign in / Register</button>
 
 
 

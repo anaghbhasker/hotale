@@ -1,5 +1,6 @@
 import usermodel from "../model/userSchema.js"
 import tokenmodel from '../model/tokenSchema.js'
+import hotelmodel from '../model/hotelSchema.js'
 import { sendMail } from '../utils/sendEmail.js'
 import { generateAuthToken,verifyToken } from '../middlewares/jwt.js'
 import bcrypt from 'bcrypt'
@@ -119,6 +120,55 @@ export async function getuser(req,res,next){
         const userId=req.userId
         const user=await usermodel.findById(userId)
         res.json({user:user})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getHotel(req,res,next){
+    try {
+        const destination=req.query.destination
+        let hotel;
+        if(destination === "null"){
+            hotel=await hotelmodel.aggregate([
+                {
+                    $match:
+                    {
+                        $and:[
+                            {
+                                isApproved:true,isAdminBanned:false,isOwnerStoped:false
+                            }
+                        ]
+                    }
+                }
+            ])
+            res.json({hotel:hotel})
+        }else{
+            hotel=await hotelmodel.aggregate([
+                {
+                    $match:
+                    {
+                        $and:[
+                            {
+                                isApproved:true,isAdminBanned:false,isOwnerStoped:false,location:destination
+                            }
+                        ]
+                    }
+                }
+            ])
+            res.json({hotel:hotel})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export async function hotelView(req,res,next){
+    try {
+        const hotelId=req.query.hotelId
+        const hotel=await hotelmodel.findById(hotelId)
+        res.json({hotel:hotel,longitude:hotel.longitude,latitude:hotel.latitude})
     } catch (error) {
         console.log(error)
     }
