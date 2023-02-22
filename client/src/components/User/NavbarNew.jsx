@@ -88,8 +88,8 @@ function NavbarNew() {
 
           <div className="text-black">
             {user ? (
-              <ul className="flex hover:border h-16 w-40 hover:bg-slate-50 text-sky-600 hover:bg-gray-100 ">
-                <p className=" text-stone-700 cursor-pointer mt-5 ml-12 font-bold text-lg text-sky-700 ">
+              <ul className="flex hover:border h-16 w-40 text-sky-600 hover:bg-gray-100 ">
+                <p className="cursor-pointer mt-5 ml-12 font-bold text-lg text-sky-700 ">
                   <PersonIcon className="" />
                   {user?.username}
                 </p>

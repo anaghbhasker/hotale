@@ -5,6 +5,7 @@ import EmailVerify from '../components/User/Emailverify/EmailVerify'
 
 import LoginPage from '../pages/Login/LoginPage'
 import SignupPage from '../pages/Signup/SignupPage'
+import BookingPage from '../pages/User/BookingPage'
 import HomePage from '../pages/User/HomePage'
 import HotelDetailsPage from '../pages/User/HotelDetailsPage'
 import HotelsPage from '../pages/User/HotelsPage'
@@ -31,6 +32,9 @@ function User() {
         </Routes>
         <Routes>
           <Route path='/hotelDetails' element={<HotelDetailsPage/>}/>
+        </Routes>
+        <Routes>
+          <Route path='/booking' element={<BookingPage/>}/>
         </Routes>
     </div>
   )

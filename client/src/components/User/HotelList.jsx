@@ -14,7 +14,7 @@ function HotelList(props) {
   const handleHotelView=async(hotelId)=>{
     navigate('/hotelDetails',{ state : { hotelId , date, option }})
   }
-
+  
   return (
     <>
       {hotels?.map((hotel) => (

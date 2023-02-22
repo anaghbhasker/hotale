@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import swal from "sweetalert";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { createTheme } from "@mui/material/styles";
@@ -76,7 +77,23 @@ function AdminShowUsers() {
               type="button"
               className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-4 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
               onClick={() => {
-                userBlk(params.row._id);
+                swal({
+                  title: "Are you sure?",
+                  text: "Once Banned, you will be able to unblock this user !",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                }).then((willDelete) => {
+                  if (willDelete) {
+                    swal("Poof! This User has been banned!", {
+                      icon: "success",
+                    });
+                    userBlk(params.row._id);
+                  } else {
+                    swal("This user is safe!");
+                  }
+                });
+                
               }}
             >
               Block
@@ -86,6 +103,12 @@ function AdminShowUsers() {
               type="button"
               className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               onClick={() => {
+                swal({
+                  title: "Good job!",
+                  text: "Unbloked this owner",
+                  icon: "success",
+                  button: "Click!",
+                });
                 userBlk(params.row._id);
               }}
             >
