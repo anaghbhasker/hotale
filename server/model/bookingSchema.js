@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const bookingSchema=new mongoose.Schema({
-    roomId:{
+    hotelId:{
         type:Schema.Types.ObjectId,
         required:true,
         ref:'hotels'
@@ -23,16 +23,19 @@ const bookingSchema=new mongoose.Schema({
     check_out:{
         type:Date
     },
-    totaldays:{
-        type:Number
-    },
     bookingdate:{
         type:Date
+    },
+    totaldays:{
+        type:Number
     },
     totalprice:{
         type:Number
     },
-    payment_status:{type:Boolean, default:false},
+    totalrooms:{
+        type:Number
+    },
+    payment_status:{type:Boolean},
     isOwnerCancel:{type:Boolean, default:false},
     isUserCancel:{type:Boolean, default:false},
 },

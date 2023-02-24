@@ -2,6 +2,7 @@ import adminModel from '../model/adminSchema.js'
 import usermodel from "../model/userSchema.js"
 import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from '../model/hotelSchema.js'
+import coupenmodel from '../model/coupenSchema.js';
 import { generateAdminToken } from '../middlewares/jwt.js'
 
 
@@ -117,6 +118,25 @@ export async function admInBannHotel(req,res,next){
         hotel.isAdminBanned=!hotel.isAdminBanned
         hotel.save()
         res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function addCoupen(req,res,next){
+    try {
+        let obj=req.body
+        const coupen=await coupenmodel.findOne({coupencode:obj.coupencode})
+        if(!coupen){
+            await coupenmodel.create({
+                coupencode:obj.coupencode,
+                discount:obj.discount,
+                endDate:obj.enddate
+            })
+            res.json({status:"success"})
+        }else{
+            res.json({status:"failed"})
+        }
     } catch (error) {
         console.log(error)
     }

@@ -138,3 +138,17 @@ export const hotelBann=async (hotelId)=>{
         return error.response.data.error;
     }
 }
+
+export const addCoupen=async (obj)=>{
+    try {
+        const response =await Axiosinstance.post('/admin/addCoupen',obj,{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

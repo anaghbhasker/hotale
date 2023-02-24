@@ -33,3 +33,17 @@ export const hoteView=async (hotelId)=>{
         return error.response.data.error;
     }
 }
+
+export const coupenApply=async (obj)=>{
+    try {
+        const response=await Axiosinstance.post(`/coupenApply`,obj,{
+            headers: {
+                usertoken: obj.userToken
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

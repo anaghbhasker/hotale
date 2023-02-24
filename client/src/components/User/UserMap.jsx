@@ -27,6 +27,7 @@ function UserMap() {
         }, [p1,p2,hotelId]);
         const addToMap = (map, coordinates) => {
             const marker = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+            console.log(marker)
         };
   return (
     <div id="map" className="flex flex-col w-full h-80 items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">

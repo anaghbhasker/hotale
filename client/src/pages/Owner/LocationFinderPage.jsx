@@ -34,6 +34,7 @@ const LocationFinderPage = () => {
     }, [plongitude,platitude]);
     const addToMap = (map, coordinates) => {
         const marker = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+        console.log(marker)
     };
 
 

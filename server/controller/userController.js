@@ -1,8 +1,10 @@
 import usermodel from "../model/userSchema.js"
 import tokenmodel from '../model/tokenSchema.js'
 import hotelmodel from '../model/hotelSchema.js'
+import coupenmodel from "../model/coupenSchema.js"
 import { sendMail } from '../utils/sendEmail.js'
 import { generateAuthToken,verifyToken } from '../middlewares/jwt.js'
+import moment from "moment/moment.js"
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 
@@ -169,6 +171,32 @@ export async function hotelView(req,res,next){
         const hotelId=req.query.hotelId
         const hotel=await hotelmodel.findById(hotelId)
         res.json({hotel:hotel,longitude:hotel.longitude,latitude:hotel.latitude})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function coupenApply(req,res,next){
+    try {
+        const today=moment()
+        const userId=req.userId
+        let obj=req.body
+        const coupen=await coupenmodel.findOne({coupencode:obj.coupencode})
+        if(coupen){
+            if(coupen.endDate>=today){
+                if (coupen.users.includes(userId)==false){
+                    coupen.users.push(userId)
+                    coupen.save()
+                    res.json({status:"success",message:"Coupen apply successfully", discount:coupen.discount})
+                } else {
+                    res.json({status:"failed",message:"Coupen already used"})
+                }
+            }else{
+                res.json({status:"failed",message:"Expered coupen code"})
+            }
+        }else{
+            res.json({status:"failed",message:"Invalid coupen code"})
+        }
     } catch (error) {
         console.log(error)
     }
