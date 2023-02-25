@@ -2,6 +2,7 @@ import usermodel from "../model/userSchema.js"
 import tokenmodel from '../model/tokenSchema.js'
 import hotelmodel from '../model/hotelSchema.js'
 import coupenmodel from "../model/coupenSchema.js"
+import bookingmodel from "../model/bookingSchema.js"
 import { sendMail } from '../utils/sendEmail.js'
 import { generateAuthToken,verifyToken } from '../middlewares/jwt.js'
 import moment from "moment/moment.js"
@@ -197,6 +198,38 @@ export async function coupenApply(req,res,next){
         }else{
             res.json({status:"failed",message:"Invalid coupen code"})
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export async function bookingFlow(req,res,next){
+    try {
+        const userId=req.userId
+        let obj=req.body
+        const bookedHotel=await bookingmodel.create({
+            hotelId:obj.hotelId,
+            userId:userId,
+            adult:obj.adult,
+            children:obj.children,
+            check_in:obj.check_in,
+            check_out:obj.check_out,
+            bookingdate:obj.bookingdate,
+            totaldays:obj.totaldays,
+            totalprice:obj.totalprice,
+            totalrooms:obj.totalrooms,
+            firstname:obj.firstname,
+            lastname:obj.lastname,
+            email:obj.email,
+            phone:obj.phone,
+            city:obj.city,
+            state:obj.state,
+            zip:obj.zip,
+            country:obj.country,
+            payment_status:true
+        })
+        res.json({status:"success",booked:bookedHotel})
     } catch (error) {
         console.log(error)
     }

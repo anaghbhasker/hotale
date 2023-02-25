@@ -9,6 +9,7 @@ import BookingPage from '../pages/User/BookingPage'
 import HomePage from '../pages/User/HomePage'
 import HotelDetailsPage from '../pages/User/HotelDetailsPage'
 import HotelsPage from '../pages/User/HotelsPage'
+import SuccessPage from '../pages/User/SuccessPage'
 
 
 
@@ -35,6 +36,9 @@ function User() {
         </Routes>
         <Routes>
           <Route path='/booking' element={<BookingPage/>}/>
+        </Routes>
+        <Routes>
+          <Route path='/success' element={<SuccessPage/>}/>
         </Routes>
     </div>
   )

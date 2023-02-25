@@ -8,8 +8,8 @@ import Button from "@mui/material/Button";
 import Maillist from "../../components/User/Maillist/Maillist";
 import Footer from "../../components/User/Footer/Footer";
 import VpnLockIcon from "@mui/icons-material/VpnLock";
-// import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-// import CountdownTimer from "../../components/User/CountdownTimer";
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import CountdownTimer from "../../components/User/CountdownTimer";
 import { useLocation } from "react-router-dom";
 import { hoteView } from "../../config/Service/UserRequest";
 import moment from "moment/moment";
@@ -41,7 +41,7 @@ function BookingPage() {
   const [ziperr, setZiperr] = useState("");
   const [country, setCountry] = useState(false);
   const [countryerr, setCountryerr] = useState("");
-
+  const [booking,setBooking]=useState({})
   const [isOpen, setIsopen] = useState(false);
   
   useEffect(() => {
@@ -116,6 +116,7 @@ function BookingPage() {
                 if (regName.test(obj.state.toString())) {
                   if (zip.test(obj.zip.toString())) {
                     if (regName.test(obj.country.toString())) {
+                      setBooking(obj)
                       setIsopen(true);
                     } else {
                       setCountry(true);
@@ -180,7 +181,7 @@ function BookingPage() {
               </p>
             </div>
           </div>
-          {/* <h1 className="text-red-500">We are holding your price…<AccessAlarmsIcon/><CountdownTimer/></h1> */}
+          <h1 className="text-red-500">We are holding your price…<AccessAlarmsIcon/><CountdownTimer/></h1>
         </div>
 
         <div className="w-full md:w-1/2 lg:w-9/12 p-4 mt-5 border shadow-lg rounded-md">
@@ -306,7 +307,7 @@ function BookingPage() {
 
               {
               isOpen  ? (
-                <div className="w-full mt-5 ml-10"><Paypal personal={details.totalprice}/></div>
+                <div className="w-full mt-5 ml-10"><Paypal personal={details.totalprice} userMore={booking}/></div>
               ) : (
                 <Button
                   type="submit"

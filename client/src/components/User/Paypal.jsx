@@ -1,81 +1,103 @@
-import { PayPalButtons } from '@paypal/react-paypal-js'
-import React, { useState } from 'react'
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import React, {  } from "react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import swal from "sweetalert";
+import { toast } from "react-toastify";
+import { bookingFlow } from "../../config/Service/UserRequest";
+import { useNavigate } from "react-router-dom";
+
+function Paypal({personal,userMore}) {
+    const navigate=useNavigate()
+    const userDetails = personal*0.014
 
 
-function Paypal(props) {
-    const userDetails=props.personal
-    
-
-    const [paidFor,setPaidFor]=useState(false)
-    const [error,setError]=useState(null)
-
-    const handleApprove=(orderId)=>{
-        
-        setPaidFor(true)
+  const handleApprove = async (orderId) => {
+    try {
+        const data= await bookingFlow(userMore)
+        if(data.status==="success"){
+            navigate('/success')
+        }else{
+            toast.error(`OOPS! something error`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+    } catch (error) {
+      toast.error(`OOPS! something error`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
-    if(paidFor){
-        swal("Good job!", "Thank you for your purchase!", "success");
-    }
-    if(error){
-        swal("OOPS!!", "Something error!!", "error");
-    }
+  };
 
-    return (
-        <PayPalScriptProvider options={{"client-id":process.env.REACT_APP_PAYPAL_CLIENTID}}>
-        <PayPalButtons 
+  return (
+    <>
+
+    <PayPalScriptProvider
+      options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENTID }}
+    >
+      <PayPalButtons
         style={{
-            color:"gold",
-            layout:"horizontal",
-            height:48,
-            tagline:false,
-            shape:"pill"
+          color: "gold",
+          layout: "horizontal",
+          height: 48,
+          tagline: false,
+          shape: "pill",
         }}
-        onClick={(data,actions)=>{
-            const hasAlreadyBoughtCource=false;
-            if (hasAlreadyBoughtCource) {
-                setError("You already bought this booking. Go to your account view your list of booking")
-                return actions.reject()
-            } else{
-                return actions.resolve()
-            }
+        onClick={(data, actions) => {
+          const hasAlreadyBoughtCource = false;
+          if (hasAlreadyBoughtCource) {
+            swal(
+              "You already bought this booking!",
+              "Go to your account view your list of booking",
+              "info"
+            );
+            return actions.reject();
+          } else {
+            return actions.resolve();
+          }
         }}
-        createOrder={(data,actions)=>{
-            return actions.order.create({
-                purchase_units:[
-                    {
-                        description:"hotel booking successfully",
-                        amount:{
-                            value:userDetails
-                        }
-                    }
-                ]
-            })
+        createOrder={(data, actions) => {
+          return actions.order.create({
+            purchase_units: [
+              {
+                description: "hotel booking successfully",
+                amount: {
+                  value: userDetails,
+                },
+              },
+            ],
+          });
         }}
-        onApprove={async(data,actions)=>{
-            // const order=await actions.order.capture();
-            // console.log("order",order);
-            // setPaidFor(true)
-            // handleApprove(data.orderID);
-            return actions.order.capture().then((details)=>{
-                console.log("order",details);
-                setPaidFor(true)
-                console.log(details.orderID);
-                handleApprove(details.orderID);
-            })
-
+        onApprove={async (data, actions) => {
+          return actions.order.capture().then((details) => {
+            console.log("order", details);
+            handleApprove(details.orderID);
+          });
         }}
-        onError={(err)=>{
-            setError(err);
-            console.log("Paypal Checkout onError",err);
+        onError={(err) => {
+          console.log("Paypal Checkout onError", err);
+          swal("OOPS!!", "Something error!!", "error");
         }}
-        onCancel={()=>{
-            swal("Payment is canceled!", "You clicked the button!", "info");
+        onCancel={() => {
+          swal("Payment is canceled!", "You clicked the button!", "info");
         }}
-        />
-        </PayPalScriptProvider>
-    )
+      />
+    </PayPalScriptProvider>
+    </>
+  );
 }
 
-export default Paypal
+export default Paypal;

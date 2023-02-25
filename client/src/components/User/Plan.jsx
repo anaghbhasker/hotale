@@ -13,9 +13,8 @@ function Plan() {
         {/* rigt side */}
         <div className='flex flex-col h-full justify-center'>
             <h3 className='text-3xl md:text-3xl font-bold'>Plane your next trip</h3>
-            <p className='text-2xl py-6'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravi</p>
-            <p className='pb-6'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sem ut urna aliquam varius. Cur
-            amet, consectetur adipiscing elit. Duis gravida sem ut urna aliquam varius. Cur</p>
+            <p className='text-2xl py-6'>As one of the most iconic luxury hotels in the world,</p>
+            <p className='pb-6'>As one of the most iconic luxury hotels in the world, It achieves this by using a dark hues like black and deep crimson, creating an aura that is both stylish and elite.</p>
             <div >
                 <button className='border-black rounded-full border py-2 px-3 mr-4 hover:shadow-xl'>Leran More</button>
                 <button className='bg-black rounded hover:bg-sky-800 py-2 px-3 xs:mt-4 text-white border-black hover:shadow-xl '>Leran More</button>

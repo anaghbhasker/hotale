@@ -18,13 +18,13 @@ const bookingSchema=new mongoose.Schema({
         type:Number
     },
     check_in:{
-        type:Date
+        type:String
     },
     check_out:{
-        type:Date
+        type:String
     },
     bookingdate:{
-        type:Date
+        type:String
     },
     totaldays:{
         type:Number
@@ -34,6 +34,30 @@ const bookingSchema=new mongoose.Schema({
     },
     totalrooms:{
         type:Number
+    },
+    firstname:{
+        type:String
+    },
+    lastname:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    phone:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    zip:{
+        type:Number
+    },
+    country:{
+        type:String
     },
     payment_status:{type:Boolean},
     isOwnerCancel:{type:Boolean, default:false},

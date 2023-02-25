@@ -47,3 +47,19 @@ export const coupenApply=async (obj)=>{
         return error.response.data.error;
     }
 }
+
+
+export const bookingFlow=async (obj)=>{
+    try {
+        const response =await Axiosinstance.post(`/bookingFlow`,obj,{
+            headers: {
+                usertoken: obj.userToken
+
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

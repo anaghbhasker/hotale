@@ -1,6 +1,6 @@
 import  express  from "express";
 const router=express.Router();
-import { signUp ,verifyEmail,login, getuser, getHotel, hotelView, coupenApply } from "../controller/userController.js";
+import { signUp ,verifyEmail,login, getuser, getHotel, hotelView, coupenApply, bookingFlow } from "../controller/userController.js";
 import { userJwt } from "../middlewares/jwt.js";
 
 
@@ -12,6 +12,7 @@ router.get('/getUser',userJwt,getuser)
 router.get('/getAllhotel',getHotel)
 router.get('/hotelView',hotelView)
 router.post('/coupenApply',userJwt,coupenApply)
+router.post('/bookingFlow',userJwt,bookingFlow)
 
 
 

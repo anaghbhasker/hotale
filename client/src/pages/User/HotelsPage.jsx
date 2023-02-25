@@ -8,8 +8,10 @@ import HotelList from "../../components/User/HotelList";
 import { gethotel } from "../../config/Service/UserRequest";
 import Footer from "../../components/User/Footer/Footer";
 import Maillist from "../../components/User/Maillist/Maillist";
+import LoadingPage from "./LoadingPage";
 
 function HotelsPage() {
+  const [isLoading,setIsloading]=useState(false)
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.place);
   const [date, setDate] = useState(location.state.date);
@@ -21,8 +23,10 @@ function HotelsPage() {
 
 
   useEffect(()=>{
-    async function invoke(){        
+    async function invoke(){ 
+        setIsloading(true)       
         const data=await gethotel(destination)
+        setIsloading(false)
         setHotel(data.hotel)
     }invoke()
   },[destination])
@@ -52,6 +56,8 @@ const handlePickup = async (suggestion) => {
 
   return (
     <div>
+      {isLoading?<LoadingPage/>:
+      <>
       <NavbarNew />
       <div className="listContainer mb-5">
         <div className="listWrapper">
@@ -137,6 +143,8 @@ const handlePickup = async (suggestion) => {
       </div>
       <Maillist/>
       <Footer/>
+      </>
+    }
     </div>
   );
 }
