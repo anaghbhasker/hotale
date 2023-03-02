@@ -229,6 +229,9 @@ export async function bookingFlow(req,res,next){
             country:obj.country,
             payment_status:true
         })
+        let hotel=await hotelmodel.findById(obj.hotelId)
+        hotel.totalrooms=hotel.totalrooms-(obj.children+obj.adult)
+        hotel.save()
         res.json({status:"success",booked:bookedHotel})
     } catch (error) {
         console.log(error)
@@ -238,7 +241,7 @@ export async function bookingFlow(req,res,next){
 export async function getAllbookings(req,res,next){
     try {
         const userId=req.userId
-        const bookings=await bookingmodel.find({userId:userId}).populate('hotelId')
+        const bookings=await bookingmodel.find({userId:userId}).sort({createdAt:-1}).populate('hotelId')
         res.json({bookings:bookings})
     } catch (error) {
         console.log(error);

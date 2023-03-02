@@ -12,7 +12,7 @@ function HomePage() {
       <NavbarNew />
       <Header />
       <Plan />
-      <h1 className='text-3xl md:text-3xl font-bold px-24 '>Browse your Rooms</h1>
+      <h1 className='text-3xl md:text-3xl font-bold px-24 '>Explore India</h1>
       <section className="py-24  sm:ml-12  ">
         <div className="   ">
           <div

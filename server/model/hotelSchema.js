@@ -53,6 +53,15 @@ const hotelSchema= new mongoose.Schema({
     latitude:{
         type:Number
     },
+    reviews:[{
+        userId:{
+            type:Schema.Types.ObjectId,
+            required:true,
+            ref:'users',
+        },
+        feedback:{type:String},
+        stars:{type:String}
+    }],
     isApproved:{type:Boolean, default:false},
     isAdminBanned:{type:Boolean, default:false},
     isOwnerStoped:{type:Boolean, default:false},

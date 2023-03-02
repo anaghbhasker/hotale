@@ -44,6 +44,7 @@ function User() {
         <Routes>
           <Route path='/mybookings' element={<MyBookings/>}/>
         </Routes>
+        
     </div>
   )
 }

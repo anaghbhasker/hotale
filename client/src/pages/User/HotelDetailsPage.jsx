@@ -271,8 +271,7 @@ function HotelDetailsPage() {
             )}
 
             <span className="hotelPriceHighlight">
-              Book a stay over {hotel?.price}₹ at this property and available
-              rooms are {hotel?.totalrooms} in now.
+              Book a stay over {hotel?.price}₹ at this property
             </span>
             <div className="hotelImages">
               {photos.map((photo, i) => (

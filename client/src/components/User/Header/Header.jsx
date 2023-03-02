@@ -69,24 +69,13 @@ const handlePickup = async (suggestion) => {
   };
 
   return (
-    <div className="header">
+    <div className="header bg-gray-800 bg-opacity-80">
       <div className="headerContainer">
-        <div className="headerList">
-          <div className="headerListItem active">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Stays</span>
-          </div>
-
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
-          </div>
-        </div>
-
+        
+        
         <h1 className="font-extrabold text-2xl">A lifetime of discounts? It's Genius.</h1>
         <p className="headerDesc">
-          Get rewarded for your travels – unlock instant savings of 10% or more
-          with a free Lamabooking account
+        By continuing, you agree to let hotale.com email you regarding your property registration.Registration is free and can take as little as 15 minutes to complete..
         </p>
         <button onClick={()=>{navigate('/owner/login')}} className="headerBtn">Sign in / Register</button>
 

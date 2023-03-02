@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Maillist from "../../components/User/Maillist/Maillist";
 import Footer from "../../components/User/Footer/Footer";
 import VpnLockIcon from "@mui/icons-material/VpnLock";
+import ReportIcon from '@mui/icons-material/Report';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import CountdownTimer from "../../components/User/CountdownTimer";
 import { useLocation } from "react-router-dom";
@@ -91,7 +92,7 @@ function BookingPage() {
       let regEmail =
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       let mob = /^([+]\d{2})?\d{10}$/;
-      let zip = /^([+]\d{2})?\d{6}$/;
+      let zip = /^([+]\d{2})?\d{12}$/;
       setFirstName(false);
       setFirstNameerr("");
       setLastName(false);
@@ -285,7 +286,7 @@ function BookingPage() {
                   name="zip"
                   error={zip}
                   helperText={ziperr}
-                  label="Zip / Postal code"
+                  label="Adhar number"
                   fullWidth
                   autoComplete="shipping postal-code"
                   variant="standard"
@@ -322,7 +323,24 @@ function BookingPage() {
               )}
             </Grid>
           </Box>
+
+
+          <div className="w-full md:w-1/2 lg:w-9/12 p-4 h-24 flex justify-between border shadow-lg rounded-md">
+          <div className="flex gap-2">
+            <ReportIcon fontSize="large" />
+            <div>
+              <p className="text-blue-500 font-semibold">
+                Please Note-:
+              </p>
+              <p className="hidden md:block">
+                  You can check-in using any government issued ID(except PAN card) and address proof of any local or outstation address. 
+              </p>
+            </div>
+          </div>
         </div>
+        </div>
+
+
         <div className="w-full md:w-1/2 lg:w-3/12 p-4 mt-5 border shadow-lg rounded-md">
           <div>
             <img src={hotel?.photo1} alt="" className="h-28 w-full" />
