@@ -9,6 +9,7 @@ import BookingPage from '../pages/User/BookingPage'
 import HomePage from '../pages/User/HomePage'
 import HotelDetailsPage from '../pages/User/HotelDetailsPage'
 import HotelsPage from '../pages/User/HotelsPage'
+import MyBookings from '../pages/User/MyBookings'
 import SuccessPage from '../pages/User/SuccessPage'
 
 
@@ -39,6 +40,9 @@ function User() {
         </Routes>
         <Routes>
           <Route path='/success' element={<SuccessPage/>}/>
+        </Routes>
+        <Routes>
+          <Route path='/mybookings' element={<MyBookings/>}/>
         </Routes>
     </div>
   )

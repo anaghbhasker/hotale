@@ -63,3 +63,32 @@ export const bookingFlow=async (obj)=>{
         return error.response.data.error;
     }
 }
+
+export const getBookings=async (token)=>{
+    try {
+        const response=await Axiosinstance.get('/getBookings',{
+            headers: {
+                usertoken: token
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+
+export const bookingcancel=async (token,bookingId)=>{
+    try {
+        const response=await Axiosinstance.get(`/bookingCancel/${bookingId}`,{
+            headers: {
+                usertoken: token
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

@@ -234,3 +234,25 @@ export async function bookingFlow(req,res,next){
         console.log(error)
     }
 }
+
+export async function getAllbookings(req,res,next){
+    try {
+        const userId=req.userId
+        const bookings=await bookingmodel.find({userId:userId}).populate('hotelId')
+        res.json({bookings:bookings})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function bookingCancel(req,res,next){
+    try {
+        const bookingId=req.params.id
+        let booking=await bookingmodel.findById(bookingId)
+        booking.isUserCancel=!booking.isUserCancel
+        booking.save()
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error);
+    }
+}

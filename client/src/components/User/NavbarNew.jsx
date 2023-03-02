@@ -150,7 +150,7 @@ function NavbarNew() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          to={"/"}
+                          to={"/mybookings"}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
