@@ -15,7 +15,8 @@ function Paypal({personal,userMore}) {
     try {
         const data= await bookingFlow(userMore)
         if(data.status==="success"){
-            navigate('/success')
+            const books=data.bookedId
+            navigate('/success',{state:{bookingId:books}})
         }else{
             toast.error(`OOPS! something error`, {
                 position: "top-center",

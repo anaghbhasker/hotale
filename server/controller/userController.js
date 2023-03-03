@@ -143,7 +143,8 @@ export async function getHotel(req,res,next){
                             }
                         ]
                     }
-                }
+                },
+                {$limit:3}
             ])
             res.json({hotel:hotel})
         }else{
@@ -230,9 +231,9 @@ export async function bookingFlow(req,res,next){
             payment_status:true
         })
         let hotel=await hotelmodel.findById(obj.hotelId)
-        hotel.totalrooms=hotel.totalrooms-(obj.children+obj.adult)
+        hotel.totalrooms=hotel.totalrooms-obj.totalrooms
         hotel.save()
-        res.json({status:"success",booked:bookedHotel})
+        res.json({status:"success",bookedId:bookedHotel._id})
     } catch (error) {
         console.log(error)
     }
@@ -255,6 +256,57 @@ export async function bookingCancel(req,res,next){
         booking.isUserCancel=!booking.isUserCancel
         booking.save()
         res.json({status:"success"})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function addFeedback(req,res,next){
+    try {
+        const userId=req.userId
+        let obj=req.body
+        const user=await usermodel.findById(userId)
+        const hotel=await hotelmodel.findByIdAndUpdate(obj.hotelId,
+            {
+                $push:{reviews:{
+                    username:user.username,
+                    userphoto:user.profilephoto,
+                    feedback:obj.feedback,
+                    stars:obj.stars
+                }}
+            }
+            )
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export async function editProfile(req,res,next){
+    try {
+        const userId=req.userId
+        let obj=req.body
+        await usermodel.findByIdAndUpdate(userId,{
+            username:obj.username,
+            city:obj.city,
+            state:obj.state,
+            country:obj.country,
+            profilephoto:obj.profilephoto,
+            coverphoto:obj.coverphoto
+        })
+        res.json({status:"success"})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export async function downloadPdf(req,res,next){
+    try {
+        const bookingId=req.params.id
+        const booking=await bookingmodel.find({_id:bookingId})
+        res.json({bookingHotel:booking})
     } catch (error) {
         console.log(error);
     }

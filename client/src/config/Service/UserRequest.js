@@ -92,3 +92,32 @@ export const bookingcancel=async (token,bookingId)=>{
         return error.response.data.error;
     }
 }
+
+
+export const addfeedback=async (obj)=>{
+    try {
+        const response=await Axiosinstance.post('/addFeedback',obj,{
+            headers: {
+                usertoken: obj.userToken
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const editUserprofile=async(obj)=>{
+    try {
+        const response=await Axiosinstance.post('/editUserprofile',obj,{
+            headers: {
+                usertoken: obj.userToken
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

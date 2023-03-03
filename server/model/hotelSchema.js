@@ -54,11 +54,10 @@ const hotelSchema= new mongoose.Schema({
         type:Number
     },
     reviews:[{
-        userId:{
-            type:Schema.Types.ObjectId,
-            required:true,
-            ref:'users',
+        username:{
+            type:String,
         },
+        userphoto:{type:String},
         feedback:{type:String},
         stars:{type:String}
     }],

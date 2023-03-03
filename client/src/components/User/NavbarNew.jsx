@@ -88,7 +88,7 @@ function NavbarNew() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          to={"/"}
+                          to={"/userprofile"}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"

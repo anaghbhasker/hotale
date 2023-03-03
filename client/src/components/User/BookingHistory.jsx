@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { bookingcancel, getBookings } from "../../config/Service/UserRequest";
+import { addfeedback, bookingcancel, getBookings } from "../../config/Service/UserRequest";
 import moment from "moment/moment";
 import swal from "sweetalert";
 import Typography from "@mui/material/Typography";
@@ -49,7 +49,7 @@ function getLabelText(value) {
 }
 
 function BookingHistory() {
-  const today = moment().format();
+  const today = moment().format("DD-MM-YYYY");
   const { token } = useSelector((state) => state.userLogin);
   const [bookings, setBookings] = useState([]);
   const [isRender, setIsRender] = useState(false);
@@ -74,6 +74,8 @@ function BookingHistory() {
     }
     invoke();
   }, [token, isRender]);
+  
+
 
   const bookingCancel = async (bookingId) => {
     const data = await bookingcancel(token, bookingId);
@@ -91,7 +93,14 @@ function BookingHistory() {
     }
     if(obj.feedback&&obj.stars){
       setErr("")
-      
+      const data=await addfeedback(obj)
+      if(data.status==="success"){
+        swal("Good job!", "Your feedback added!", "success");
+        handleClose()
+      }else{
+        swal("OOPS!!", "Something error!!", "warning");
+        handleClose()
+      }
     }else{
       setErr("All fields are required..!!")
     }
@@ -138,9 +147,7 @@ function BookingHistory() {
               <p>Total Price:{bookings.totalprice}₹</p>
             </div>
             <div className="md:flex flex items-center justify-center space-x-2">
-              {bookings.isUserCancel ? (
-                ""
-              ) : bookings.check_out < today ? (
+              {!bookings.isUserCancel && bookings.check_out > today ? (
                 <button
                   onClick={() => {
                     swal({
@@ -171,7 +178,7 @@ function BookingHistory() {
                 ""
               )}
 
-              {today < bookings.check_out ? (
+              {today > bookings.check_out && !bookings.isUserCancel ? (
                 <button
                   onClick={handleOpen}
                   className="lg:w-auto w-full border border-gray-800 hover:text-gray-50 hover:bg-green-700 focus:outline-none lg:px-10 px-7 lg:py-4 py-3 text-sm leading-none text-gray-800"

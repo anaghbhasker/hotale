@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 
 import { Transition } from "@headlessui/react";
 import { useTimeoutFn } from "react-use";
+import UsersReviews from "../../components/User/UsersReviews";
 
 function HotelDetailsPage() {
   let [isOpen, setIsOpen] = useState(false);
@@ -59,6 +60,7 @@ function HotelDetailsPage() {
     }
     invoke();
   }, [hotelId]);
+
 
   let totalPrice = hotel?.price * diffInDays * option.room;
 
@@ -288,6 +290,9 @@ function HotelDetailsPage() {
 
             <UserMap />
             <Fesility />
+
+            
+            {hotel?.reviews.length===0?(""):(<UsersReviews reviews={hotel?.reviews}/>)}
 
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">

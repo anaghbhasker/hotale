@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Pagination from '@mui/material/Pagination';
 import "./HotelList.css";
 
 function HotelList(props) {
@@ -53,6 +54,8 @@ function HotelList(props) {
           </div>
         </div>
       ))}
+      <Pagination count={3} color="secondary" />
+      
     </>
   );
 }

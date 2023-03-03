@@ -11,6 +11,7 @@ import HotelDetailsPage from '../pages/User/HotelDetailsPage'
 import HotelsPage from '../pages/User/HotelsPage'
 import MyBookings from '../pages/User/MyBookings'
 import SuccessPage from '../pages/User/SuccessPage'
+import UserProfilePage from '../pages/User/UserProfilePage'
 
 
 
@@ -44,7 +45,9 @@ function User() {
         <Routes>
           <Route path='/mybookings' element={<MyBookings/>}/>
         </Routes>
-        
+        <Routes>
+          <Route path='/userprofile' element={<UserProfilePage/>}/>
+        </Routes>
     </div>
   )
 }
