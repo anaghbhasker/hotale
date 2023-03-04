@@ -1,9 +1,11 @@
 import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from "../model/hotelSchema.js";
+import bookingmodel from "../model/bookingSchema.js"
 import { otpSend,otpVerify } from '../utils/twilio.js'
 import { generateOwnerToken,verifyToken } from '../middlewares/jwt.js'
 
 import bcrypt from 'bcrypt'
+import mongoose from "mongoose";
 export async function ownerSignup(req,res,next){
     try {
         let obj=req.body
@@ -217,6 +219,30 @@ export async function editProfile(req,res,next){
             coverphoto:obj.coverphoto,
         })
         res.json({status:"success"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getBookings(req,res,next){
+    try {
+        const hotelId=req.params.id
+        const bookings=await bookingmodel.find({hotelId:hotelId})
+        const bookingCount=await bookingmodel.find({hotelId:hotelId}).count()
+        const bookingsAmount=await bookingmodel.aggregate([
+            {
+                $match:{
+                    hotelId:mongoose.Types.ObjectId(hotelId)  
+                }
+            },
+            {
+                $group:{
+                    _id:null,
+                    totalAmount:{$sum:"$totalprice"}
+                }
+            }
+        ])
+        res.json({bookings:bookings,bookingCount:bookingCount,totalAmount:bookingsAmount[0].totalAmount})
     } catch (error) {
         console.log(error)
     }

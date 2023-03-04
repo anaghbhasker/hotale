@@ -5,6 +5,7 @@ import Maillist from "../../components/User/Maillist/Maillist";
 import Footer from "../../components/User/Footer/Footer";
 import Plan from "../../components/User/Plan";
 import Review from "../../components/User/Review";
+import ExploreKerala from "../../components/User/ExploreKerala";
 
 function HomePage() {
   return (
@@ -12,7 +13,8 @@ function HomePage() {
       <NavbarNew />
       <Header />
       <Plan />
-      <h1 className='text-3xl md:text-3xl font-bold px-24 '>Explore India</h1>
+      <ExploreKerala/>
+      <h1 className='text-3xl md:text-3xl font-bold px-24 '>Top Rated</h1>
       <section className="py-24  sm:ml-12  ">
         <div className="   ">
           <div

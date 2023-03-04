@@ -7,8 +7,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   deletehotel,
   editHotel,
+  getBookings,
   getEdithotel,
 } from "../../config/Service/OwnerRequest";
+import BookingDetails from "./BookingDetails";
 
 function EditHotel() {
   const location = useLocation();
@@ -24,6 +26,10 @@ function EditHotel() {
 
   const [hotelErr, setHotelErr] = useState(false);
   const [hotelErrerrMessage, setHotelerrMessage] = useState("");
+
+  const [bookingCount,setBookingCount]=useState(0)
+  const [totalAmount,setTotalAmount]=useState(0)
+
 
   function onSelecthotelFesility(val, setVal) {
     setSelectFesility(val);
@@ -45,6 +51,15 @@ function EditHotel() {
     }
     invoke();
   }, [hotelId, navigate]);
+
+
+  useEffect(()=>{
+    async function invoke(){
+      const data=await getBookings(hotelId)
+      setBookingCount(data.bookingCount)
+      setTotalAmount(data.totalAmount)
+    }invoke()
+  },[hotelId])
 
   async function sendJobPost(e) {
     e.preventDefault();
@@ -418,6 +433,8 @@ function EditHotel() {
             <div className="flex">
               <div>
                 <h2 className="ml-3">Include Compensation</h2>
+                <p className="ml-6 mt-2 text-lg font-semibold leading-none text-gray-800">Total Booking:{bookingCount}</p>    
+                <p className="ml-6 text-2xl leading-none text-gray-600 pt-2 pb-2">Total Amount:{totalAmount}</p>
               </div>
               <div className="ml-auto mr-4">
                 <img
@@ -485,6 +502,7 @@ function EditHotel() {
             </div>
           </div>
         </form>
+      <BookingDetails/>
       </div>
     </div>
   );

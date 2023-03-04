@@ -121,3 +121,23 @@ export const editUserprofile=async(obj)=>{
         return error.response.data.error;
     }
 }
+
+export const keralaHotels=async ()=>{
+    try {
+        const response=await Axiosinstance.get('/exploreKerala')
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const topRated=async ()=>{
+    try {
+        const response=await Axiosinstance.get('/topRated')
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

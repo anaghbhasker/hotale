@@ -139,3 +139,17 @@ export const editProfile=async (obj)=>{
         return error.response.data.error;
     }
 }
+
+export const getBookings=async (hotelId)=>{
+    try {
+        const response=await Axiosinstance.get(`/owner/getBookings/${hotelId}`,{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

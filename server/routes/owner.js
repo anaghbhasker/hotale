@@ -1,7 +1,7 @@
 import  express  from "express";
 const router=express.Router();
 
-import { addHotel, addLocation, deleteHotel, editHotel, editProfile, fullDetails, getEditHotel, getOwner, getOwnerHotel, hotelBann, ownerLogin, ownerOtpVerify, ownerSignup } from "../controller/ownerController.js";
+import { addHotel, addLocation, deleteHotel, editHotel, editProfile, fullDetails, getBookings, getEditHotel, getOwner, getOwnerHotel, hotelBann, ownerLogin, ownerOtpVerify, ownerSignup } from "../controller/ownerController.js";
 import { ownerJwt } from "../middlewares/jwt.js";
 
 
@@ -19,6 +19,7 @@ router.get('/deleteHotel/:id',ownerJwt,deleteHotel)
 router.get('/hotelBann/:id',ownerJwt,hotelBann)
 router.get('/fullDetails',ownerJwt,fullDetails)
 router.post('/editProfile',ownerJwt,editProfile)
+router.get('/getBookings/:id',ownerJwt,getBookings)
 
 
 

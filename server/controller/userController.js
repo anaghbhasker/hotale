@@ -311,3 +311,32 @@ export async function downloadPdf(req,res,next){
         console.log(error);
     }
 }
+
+export async function keralaHotel(req,res,next){
+    try {
+        const keralaHotel=await hotelmodel.find({state:"KERALA"}).limit(3)
+        res.json({hotels:keralaHotel})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function topRated(req,res,next){
+    try {
+        const hotels=await hotelmodel.aggregate([
+            {
+                $match:{
+                    price:{
+                        $gte:3000
+                    }
+                }
+            },
+            {
+                $limit:3
+            }
+        ])
+        res.json({hotels:hotels})
+    } catch (error) {
+        console.log(error);
+    }
+}
