@@ -239,7 +239,7 @@ function AdminSidebar() {
           </Link>
         </div>
         <div>
-          <Link to={"/admin/"}>
+          <Link to={"/admin/showMessages"}>
             <AdminSidebarlinks text="Message" Icon={Email} active={false} />
           </Link>
         </div>

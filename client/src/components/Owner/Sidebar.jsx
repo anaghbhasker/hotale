@@ -37,7 +37,7 @@ function Sidebar() {
             </Link>
             </div>
             <div>
-            <Link to={'/owner/'}>
+            <Link to={'/owner/messages'}>
                 <SidebarLinks text='Messages' Icon={Email} active={false}/>
             </Link>
             </div>

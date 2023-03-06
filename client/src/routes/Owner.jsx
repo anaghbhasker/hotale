@@ -13,6 +13,7 @@ import LocationFinderPage from '../pages/Owner/LocationFinderPage'
 import OwnerThanksPage from '../pages/Owner/OwnerThanksPage'
 import OwnerEditHotelPage from '../pages/Owner/OwnerEditHotelPage'
 import OwnerProfilePage from '../pages/Owner/OwnerProfilePage'
+import OwnerMessages from '../pages/Owner/OwnerMessages'
 
 function Owner() {
     return (
@@ -46,6 +47,9 @@ function Owner() {
             </Routes>
             <Routes>
                 <Route path='/profileView' element={<OwnerProfilePage/>}/>
+            </Routes>
+            <Routes>
+                <Route path='/messages' element={<OwnerMessages/>}/>
             </Routes>
         </div>
     )
