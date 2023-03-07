@@ -14,7 +14,6 @@ function Sidebar() {
         <h4 className="text-white text-lg ml-2 xl:ml-8 font-bold p-2 ">Hotale</h4>
         </div>
         <button onClick={()=>{navigate('/owner/addHotel')}} className="hidden xl:inline ml-auto bg-white text-[#000] rounded-md w-52 h-[38px] text-lg font-bold shadow-md hover:bg-[#2f2e2e] hover:text-white ">Add Hotel</button>
-
         <div className="space-y-10 mt-4 mb-2.5 xl:ml-24">
             <div>
             <Link to={'/owner/'}>

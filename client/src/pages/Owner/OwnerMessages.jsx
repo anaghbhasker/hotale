@@ -62,17 +62,10 @@ function OwnerMessages() {
           <div class="flex h-screen antialiased gap-3 text-gray-800">
             <div class="flex flex-row h-full w-full  overflow-x-hidden">
               <ChatWidget
-              //   setCurrentChat={setCurrentChat}
-              //   chats={chats}
-              //   currentUser={users?.userId}
               />
             </div>
 
             <ChatBox
-            //   recieveMessage={recieveMessage}
-            //   setSendMessage={setSendMessage}
-            //   chat={currentChat}
-            //   currentUser={users?._id}
             />
           </div>
         </div>

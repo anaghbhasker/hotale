@@ -15,6 +15,8 @@ import connectDb from './config/dbconnection.js'
 import userRouter from './routes/user.js'
 import ownerRouter from './routes/owner.js'
 import adminRouter from './routes/admin.js'
+import chatRouter from './routes/chat.js'
+import messageRoute from './routes/message.js'
 
 
 //////  VARIABLES
@@ -56,6 +58,8 @@ app.use(cookieParser())
 
 //////Routes
 
+app.use('/message',messageRoute)
+app.use('/chat',chatRouter)
 app.use('/admin',adminRouter)
 app.use('/owner',ownerRouter)
 app.use('/',userRouter)

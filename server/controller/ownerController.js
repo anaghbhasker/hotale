@@ -1,6 +1,7 @@
 import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from "../model/hotelSchema.js";
 import bookingmodel from "../model/bookingSchema.js"
+import adminModel from "../model/adminSchema.js";
 import { otpSend,otpVerify } from '../utils/twilio.js'
 import { generateOwnerToken,verifyToken } from '../middlewares/jwt.js'
 
@@ -243,6 +244,33 @@ export async function getBookings(req,res,next){
             }
         ])
         res.json({bookings:bookings,bookingCount:bookingCount,totalAmount:bookingsAmount[0].totalAmount})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAdmins(req,res,next){
+    try {
+        const admins=await adminModel.find()
+        res.json({admins:admins})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAdmin(req,res,next){
+    try {
+        const adminDetails=await adminModel.findById(req.params.adminId)
+        res.json({adminDetails:adminDetails})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function myPhoto(req,res,next){
+    try {
+        const owner=await ownermodel.findById(req.params.ownerId)
+        res.json({result:owner})
     } catch (error) {
         console.log(error)
     }

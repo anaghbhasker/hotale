@@ -153,3 +153,63 @@ export const getBookings=async (hotelId)=>{
         return error.response.data.error;
     }
 }
+
+export const getAllAdmin=async()=>{
+    try {
+        const response=await Axiosinstance.get('/owner/getAdminChat')
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const createChat=async (obj)=>{
+    try {
+        const response=await Axiosinstance.post('/chat/',obj)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const getChatbox=async (ownerId)=>{
+    try {
+        const response =await Axiosinstance.get(`/chat/${ownerId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const getAdmin =async (adminId)=>{
+    try {
+        const response=await Axiosinstance.get(`/owner/getAdmin/${adminId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const getAllmessages=async(chatId)=>{
+    try {
+        const response=await Axiosinstance.get(`/message/${chatId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const myPic=async(ownerId)=>{
+    try {
+        const response=await Axiosinstance.get(`/owner/myPhoto/${ownerId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        
+    }
+}
