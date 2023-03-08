@@ -152,3 +152,55 @@ export const addCoupen=async (obj)=>{
         return error.response.data.error;
     }
 }
+
+export const adminCreateChat=async(obj)=>{
+    try {
+        const response=await Axiosinstance.post('/chat/',obj)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+
+export const AdmingetChatbox=async (adminId)=>{
+    try {
+        const response =await Axiosinstance.get(`/chat/${adminId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const getOwner=async (ownerId)=>{
+    try {
+        const response =await Axiosinstance.get(`/admin/getOwner/${ownerId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const adminGetAllmessages=async(chatId)=>{
+    try {
+        const response=await Axiosinstance.get(`/message/${chatId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+
+export const adminDetails=async(adminId)=>{
+    try {
+        const response=await Axiosinstance.get(`/admin/getMydetails/${adminId}`)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

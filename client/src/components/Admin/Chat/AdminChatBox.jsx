@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { getChatbox } from "../../../config/Service/OwnerRequest";
+import React from 'react'
 import jwt_decode from "jwt-decode";
-import ChatPeoples from "./ChatPeoples";
+import AdminChatpeoples from './AdminChatpeoples';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { AdmingetChatbox } from '../../../config/Service/AdminRequest';
 
-function ChatBox({onlineUsers}) {
+function AdminChatBox({onlineUsers}) {
+
   const [chatBox, setChatbox] = useState([]);
 
-  const ownertoken = localStorage.getItem("ownertoken");
+  const ownertoken = localStorage.getItem("adminToken");
   const decoded = jwt_decode(ownertoken);
 
   useEffect(() => {
     async function invoke() {
-      const data = await getChatbox(decoded._id);
+      const data = await AdmingetChatbox(decoded._id);
       setChatbox(data.chatbox);
     }
     invoke();
   }, [decoded._id]);
 
-  return (
-    <>
+
+
+    return (
+        <>
       <div className="flex flex-col py-8 pl-6 pr-2 w-64 h-96 rounded-lg bg-white flex-shrink-0">
         <div className="flex flex-row items-center justify-center h-12 w-full">
           <div className="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
@@ -48,18 +53,18 @@ function ChatBox({onlineUsers}) {
             </span>
           </div>
           <div className="flex flex-col space-y-1 mt-4 -mx-2 h-48">
-            {chatBox?.map((chatbox) => (
-              <ChatPeoples onlineUsers={onlineUsers}
-                key={chatbox._id}
-                data={chatbox}
-                currentOwnerId={decoded._id}
-              />
+          {chatBox?.map((chatbox) => (
+            <AdminChatpeoples onlineUsers={onlineUsers}
+              key={chatbox._id}
+              data={chatbox}
+              currentAdminId={decoded._id}
+            />
             ))}
           </div>
         </div>
       </div>
     </>
-  );
+    )
 }
 
-export default ChatBox;
+export default AdminChatBox

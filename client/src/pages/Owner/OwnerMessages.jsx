@@ -9,11 +9,55 @@ import Bottomnavigate from "../../components/Owner/Bottomnavigate";
 import { getOwner } from "../../config/Service/OwnerRequest";
 import ChatBox from "../../components/Owner/Chat/ChatBox";
 import ChatWidget from "../../components/Owner/Chat/ChatWidget";
+import { AppContext } from "../../context/AppContext";
+
+import jwt_decode from "jwt-decode";
+import { useContext } from "react";
 
 function OwnerMessages() {
+  
+  const ownertoken = localStorage.getItem("ownertoken");
+  const decoded = jwt_decode(ownertoken);
+
   const navigate = useNavigate();
   const [ownerName, setOwnerName] = useState();
   const [ownerEmail, setOwnerEmail] = useState();
+  const [onlineUsers,setOnlineUsers]=useState([])
+  const [sendMessage,setSendMessage]=useState(null)
+  const [recieveMessage,setRecieveMessage]=useState(null)
+  const {socket}= useContext(AppContext)
+
+
+    // socket implementation
+
+    // send message to the socket server
+    useEffect(()=>{
+      if(sendMessage!==null){
+        console.log('send message')
+        socket.emit('send-message',sendMessage)
+      }
+    },[socket,sendMessage])
+
+    
+    useEffect(()=>{
+      socket.emit('new-user-add',decoded._id)
+      socket.on('get-users',(users)=>{
+        setOnlineUsers(users)
+      })
+    },[socket,decoded._id])
+    
+
+    // receive message to the socket server
+    useEffect(()=>{
+      socket.on('receive-message',(data)=>{
+        console.log('recieve message')
+        setRecieveMessage(data)
+      })
+    },[socket])
+
+
+  // socket implementation
+
 
   useEffect(() => {
     async function invoke() {
@@ -59,13 +103,13 @@ function OwnerMessages() {
 
 
 
-          <div class="flex h-screen antialiased gap-3 text-gray-800">
-            <div class="flex flex-row h-full w-full  overflow-x-hidden">
-              <ChatWidget
+          <div className="flex h-screen antialiased gap-3 text-gray-800">
+            <div className="flex flex-row h-full w-full  overflow-x-hidden">
+              <ChatWidget  setSendMessage={setSendMessage} recieveMessage={recieveMessage}
               />
             </div>
 
-            <ChatBox
+            <ChatBox onlineUsers={onlineUsers}
             />
           </div>
         </div>

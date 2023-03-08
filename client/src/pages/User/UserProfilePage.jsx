@@ -20,6 +20,8 @@ function UserProfilePage() {
     async function invoke() {
       const data = await getUser(token);
       setUser(data.user);
+      setProfileImage(data.user.profilephoto)
+      setCoverImage(data.user.coverphoto)
     }
     invoke();
   }, [token,isrender]);
@@ -93,8 +95,8 @@ function UserProfilePage() {
         city: data.get("city"),
         state: data.get("state"),
         country: data.get("country"),
-        profilephoto: profileImage ? profileImage : user?.profilephoto,
-        coverphoto: coverImage ? coverImage : user?.coverphoto,
+        profilephoto: profileImage ,
+        coverphoto: coverImage ,
     };
     if(obj.username){
         let regName = /^[a-zA-Z]+$/;
@@ -156,13 +158,7 @@ function UserProfilePage() {
               <div className="xl:w-9/12 w-11/12 mx-auto xl:mx-0">
                 <div className="rounded relative mt-8 h-48">
                   <img
-                    src={
-                      user?.coverphoto
-                        ? user?.coverphoto
-                        : coverImage
-                        ? coverImage
-                        : "https://cdn.tuk.dev/assets/webapp/forms/form_layouts/form1.jpg"
-                    }
+                    src={coverImage ? coverImage: "https://cdn.tuk.dev/assets/webapp/forms/form_layouts/form1.jpg"}
                     alt="..."
                     className="w-full h-full object-cover rounded absolute shadow"
                   />
@@ -200,11 +196,7 @@ function UserProfilePage() {
                   <div className="w-20 h-20 rounded-full bg-cover bg-center bg-no-repeat absolute bottom-0 -mb-10 ml-12 shadow flex items-center justify-center">
                     <img
                       src={
-                        user?.profilephoto
-                          ? user?.profilephoto
-                          : profileImage
-                          ? profileImage
-                          : "https://cdn.tuk.dev/assets/webapp/forms/form_layouts/form2.jpg"
+                        profileImage? profileImage: "https://cdn.tuk.dev/assets/webapp/forms/form_layouts/form2.jpg"
                       }
                       alt="..."
                       className="absolute z-0 h-full w-full object-cover rounded-full shadow top-0 left-0 bottom-0 right-0"

@@ -200,7 +200,7 @@ export const getAllmessages=async(chatId)=>{
         const data=response.data
         if(data)return data
     } catch (error) {
-        console.log(error);
+        return error.response.data.error;
     }
 }
 
@@ -210,6 +210,16 @@ export const myPic=async(ownerId)=>{
         const data=response.data
         if(data)return data
     } catch (error) {
-        
+        return error.response.data.error;
+    }
+}
+
+export const postMessage=async(obj)=>{
+    try {
+        const response=await Axiosinstance.post('/message/',obj)
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
     }
 }

@@ -141,3 +141,21 @@ export async function addCoupen(req,res,next){
         console.log(error)
     }
 }
+
+export async function getOwner(req,res,next){
+    try {
+        const owner=await ownermodel.findById(req.params.ownerId)
+        res.json({ownerDetails:owner})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAdminDetails(req,res,next){
+    try {
+        const admin=await adminModel.findById(req.params.adminId)
+        res.json({adminDetails:admin})
+    } catch (error) {
+        console.log(error)
+    }
+}

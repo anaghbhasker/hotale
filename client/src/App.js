@@ -4,11 +4,14 @@ import LoadingPage from "./pages/User/LoadingPage";
 import Admin from "./routes/Admin";
 import Owner from "./routes/Owner";
 import { AppContext } from "./context/AppContext";
+import { AdminContext } from "./context/AdminContext";
+import { io } from "socket.io-client";
 // import User from "./routes/User";
 
 function App() {
   const User = lazy(() => import("./routes/User"));
   const [chat, setChat] = React.useState(null);
+  const [socket,SetSocket]=React.useState(io('http://localhost:8800'))
   return (
     <div>
       <Router>
@@ -20,16 +23,18 @@ function App() {
         </Suspense>
 
         {/* Owner Routes */}
-        <AppContext.Provider value={{chat,setChat}}>
+        <AppContext.Provider value={{ chat, setChat,socket }}>
           <Routes>
             <Route path="/owner/*" element={<Owner />} />
           </Routes>
         </AppContext.Provider>
 
         {/* Admin Routes */}
-        <Routes>
-          <Route path="/admin/*" element={<Admin />} />
-        </Routes>
+        <AdminContext.Provider value={{ chat,setChat,socket }}>
+          <Routes>
+            <Route path="/admin/*" element={<Admin />} />
+          </Routes>
+        </AdminContext.Provider>
       </Router>
     </div>
   );

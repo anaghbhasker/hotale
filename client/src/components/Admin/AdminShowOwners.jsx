@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 
+import MessageIcon from "@mui/icons-material/Message";
 import { DataGrid } from "@mui/x-data-grid";
 import { createTheme } from "@mui/material/styles";
 import { Box, ThemeProvider } from "@mui/material";
 
-import { doOwnerBlk, getOwners } from "../../config/Service/AdminRequest";
+import { adminCreateChat, doOwnerBlk, getOwners } from "../../config/Service/AdminRequest";
 
 const theme = createTheme({
   palette: {
@@ -23,6 +25,8 @@ function AdminShowOwners() {
   const [owners, setOwner] = useState([]);
   const [ownerStatus, setOwnerStatus] = useState(false);
   const navigate = useNavigate();
+
+  const admintoken= localStorage.getItem('adminToken')
 
   useEffect(() => {
     async function invoke() {
@@ -45,8 +49,7 @@ function AdminShowOwners() {
 
   const columns = [
     { field: "firstname", headerName: "Firstname", width: 200 },
-    { field: "lastname", headerName: "Lastname", width: 200 },
-    { field: "email", headerName: "Email", width: 200 },
+    { field: "lastname", headerName: "Lastname", width: 150 },
     {
       field: "phone",
       headerName: "Phone",
@@ -120,7 +123,28 @@ function AdminShowOwners() {
         </div>
       ),
     },
+    {
+      field: "Message",
+      headerName: "Message",
+      width: 100,
+      editable: true,
+      renderCell: (params) => (
+        <div onClick={()=>{chatStart(params.row._id)}} className="hover:cursor-pointer">          
+          <MessageIcon/>
+        </div>
+      ),
+    },
   ];
+
+  const chatStart=async(ownerId)=>{
+    const decoded = jwt_decode(admintoken);
+    let obj={
+      senderId:decoded._id,
+      receiverId:ownerId
+    }
+    await adminCreateChat(obj)
+    navigate('/admin/showMessages')
+  }
   return (
     <ThemeProvider theme={theme}>
       <div className="mt-4 ml-4 mr-6">
@@ -170,7 +194,6 @@ function AdminShowOwners() {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           getRowId={(owners) => owners._id}
         />
       </Box>

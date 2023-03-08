@@ -1,32 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../../context/AppContext";
+import { AdminContext } from "../../../context/AdminContext";
 import jwt_decode from "jwt-decode";
 import {
-  getAdmin,
-  getAllmessages,
-  myPic,
-  postMessage,
-} from "../../../config/Service/OwnerRequest";
+  adminDetails,
+  adminGetAllmessages,
+  getOwner,
+} from "../../../config/Service/AdminRequest";
 import Moment from "react-moment";
 import InputEmoji from "react-input-emoji";
+import { postMessage } from "../../../config/Service/OwnerRequest";
 import { useRef } from "react";
 
-
-
-
-
-function ChatWidget({setSendMessage,recieveMessage}) {
-  const { chat } = useContext(AppContext);
-  const ownertoken = localStorage.getItem("ownertoken");
+function AdminChatWidget({setSendMessage,recieveMessage}) {
+  const { chat } = useContext(AdminContext);
+  const ownertoken = localStorage.getItem("adminToken");
   const decoded = jwt_decode(ownertoken);
 
-  const [admin, setAdmin] = useState();
-  const [owner, setOwner] = useState();
   const [messages, setMessages] = useState([]);
+  const [owner, setOwner] = useState();
+  const [admin, setAdmin] = useState();
   const [text, setText] = useState("");
 
   const scroll=useRef()
-  
 
   useEffect(()=>{
     if (recieveMessage !== null && recieveMessage.chatId===chat?._id) {
@@ -36,16 +31,7 @@ function ChatWidget({setSendMessage,recieveMessage}) {
 
   useEffect(() => {
     async function invoke() {
-      const adminId = chat.members.find((id) => id !== decoded._id);
-      const result = await getAdmin(adminId);
-      setAdmin(result.adminDetails);
-    }
-    if (chat !== null) invoke();
-  }, [chat, decoded._id]);
-
-  useEffect(() => {
-    async function invoke() {
-      const data = await getAllmessages(chat?._id);
+      const data = await adminGetAllmessages(chat?._id);
       setMessages(data.result);
     }
     if (chat !== null) invoke();
@@ -53,17 +39,21 @@ function ChatWidget({setSendMessage,recieveMessage}) {
 
   useEffect(() => {
     async function invoke() {
-      const data = await myPic(decoded._id);
-      setOwner(data.result);
+      const ownerId = chat.members.find((id) => id !== decoded._id);
+      const result = await getOwner(ownerId);
+      setOwner(result.ownerDetails);
     }
     if (chat !== null) invoke();
   }, [chat, decoded._id]);
 
-  // console.log(chat?._id);
-  // console.log(decoded._id);
-  // console.log(admin);
-  // console.log(messages)
-  // console.log(owner);
+  useEffect(() => {
+    async function invoke() {
+      const data = await adminDetails(decoded._id);
+      setAdmin(data.adminDetails);
+    }
+    if (chat !== null) invoke();
+  }, [chat, decoded._id]);
+
 
   async function handleOnEnter(text) {
     if(text){
@@ -82,9 +72,6 @@ function ChatWidget({setSendMessage,recieveMessage}) {
     }
   }
 
-
-
-
   async function handleButton(text){
     if(text){
       const message=text
@@ -94,7 +81,6 @@ function ChatWidget({setSendMessage,recieveMessage}) {
         text:message,
         chatId:chat?._id
       }
-    
       const data=await postMessage(obj)
       setMessages([...messages,data.result])
 
@@ -103,15 +89,13 @@ function ChatWidget({setSendMessage,recieveMessage}) {
       const receiverId = chat?.members.find((id) => id !== decoded._id);
       setSendMessage({...obj,receiverId})
     }
-    
   }
+
 
   // Always scrool to last message
   useEffect(()=>{
     scroll.current?.scrollIntoView({behavior:"smooth"})
   },[messages])
-
-
 
   return (
     <>
@@ -126,17 +110,9 @@ function ChatWidget({setSendMessage,recieveMessage}) {
                       {message?.senderId === decoded._id && (
                         <div ref={scroll} className="col-start-6 col-end-13 p-3 rounded-lg">
                           <div className="flex items-center justify-start flex-row-reverse">
-                            {owner?.profilephoto ? (
-                              <img
-                                src={owner?.profilephoto}
-                                alt=".."
-                                className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                              />
-                            ) : (
-                              <div className="flex items-center justify-center h-10 w-10 rounded-full uppercase bg-indigo-500 flex-shrink-0">
-                                {owner?.firstname.substring(0,1)}
-                              </div>
-                            )}
+                            <div className="flex items-center justify-center uppercase h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                              {admin?.email.substring(0, 1)}
+                            </div>
                             <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
                               <div>{message?.text}</div>
                               <p className="text-xs text-green-600 font-thin">
@@ -150,9 +126,17 @@ function ChatWidget({setSendMessage,recieveMessage}) {
                       {message?.senderId !== decoded._id && (
                         <div ref={scroll} className="col-start-1 col-end-8 p-3 rounded-lg">
                           <div className="flex flex-row items-center">
-                            <div className="flex items-center justify-center h-10 w-10 rounded-full uppercase bg-indigo-500 flex-shrink-0">
-                              {admin?.email.substring(0, 1)}
-                            </div>
+                            {owner?.profilephoto ? (
+                              <img
+                                src={owner?.profilephoto}
+                                className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
+                                alt="..."
+                              />
+                            ) : (
+                              <div className="flex items-center justify-center uppercase h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                                {owner?.firstname.substring(0, 1)}
+                              </div>
+                            )}
                             <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                               <div>{message?.text}</div>
                               <p className="text-xs text-green-600 font-thin">
@@ -167,7 +151,6 @@ function ChatWidget({setSendMessage,recieveMessage}) {
                 </div>
               </div>
             </div>
-
             <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
               <div className="flex-grow ml-4">
                 <InputEmoji
@@ -205,7 +188,9 @@ function ChatWidget({setSendMessage,recieveMessage}) {
       ) : (
         <div className="flex flex-col flex-auto h-[90vh] ">
           <div className="flex flex-col flex-auto text-center flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
-            <p className="text-2xl font-medium italic">Tap on a Chat to start Conversation..</p>
+            <p className="text-2xl font-medium italic">
+              Tap on a Chat to start Conversation..
+            </p>
           </div>
         </div>
       )}
@@ -213,4 +198,4 @@ function ChatWidget({setSendMessage,recieveMessage}) {
   );
 }
 
-export default ChatWidget;
+export default AdminChatWidget;

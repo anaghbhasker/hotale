@@ -6,14 +6,54 @@ import { useNavigate } from 'react-router-dom'
 
 import AdminSidebar from '../../components/Admin/AdminSidebar'
 import BotNavigateAdmin from '../../components/Admin/BotNavigateAdmin'
-import AdminChatWidget from '../../components/Admin/AdminChatWidget'
-import AdminChatBox from '../../components/Admin/AdminChatBox'
+import AdminChatWidget from '../../components/Admin/Chat/AdminChatWidget'
+import AdminChatBox from '../../components/Admin/Chat/AdminChatBox'
+
+import { useState } from 'react'
+import jwt_decode from "jwt-decode";
+import { useEffect } from 'react'
+
+import { AdminContext } from '../../context/AdminContext'
+import { useContext } from 'react'
 
 function ShowMessagePage() {
+
+    const ownertoken = localStorage.getItem("adminToken");
+    const decoded = jwt_decode(ownertoken);
     
     const navigate=useNavigate()
 
+    const [onlineUsers,setOnlineUsers]=useState([])
+    const [sendMessage,setSendMessage]=useState(null)
+    const [recieveMessage,setRecieveMessage]=useState(null)
     
+    const {socket}= useContext(AdminContext)
+
+    // socket implementation
+
+
+    // send message to the socket server
+    useEffect(()=>{
+      if(sendMessage!==null){
+        socket.emit('send-message',sendMessage)
+      }
+    },[socket,sendMessage])
+
+    useEffect(()=>{
+      socket.emit('new-user-add',decoded._id)
+      socket.on('get-users',(users)=>{
+        setOnlineUsers(users)
+      })
+    },[socket,decoded._id])
+
+    // receive message to the socket server
+    useEffect(()=>{
+      socket.on('receive-message',(data)=>{
+        setRecieveMessage(data)
+      })
+    },[socket])
+
+    // socket implementation
 
     const logout=()=>{
         localStorage.removeItem('adminToken')
@@ -35,20 +75,13 @@ function ShowMessagePage() {
         </div>
         
 
-        <div class="flex h-screen antialiased gap-3 text-gray-800">
-            <div class="flex flex-row h-full w-full  overflow-x-hidden">
-              <AdminChatWidget
-              //   setCurrentChat={setCurrentChat}
-              //   chats={chats}
-              //   currentUser={users?.userId}
+        <div className="flex h-screen antialiased gap-3 text-gray-800">
+            <div className="flex flex-row h-full w-full  overflow-x-hidden">
+              <AdminChatWidget setSendMessage={setSendMessage} recieveMessage={recieveMessage}
               />
             </div>
 
-            <AdminChatBox
-            //   recieveMessage={recieveMessage}
-            //   setSendMessage={setSendMessage}
-            //   chat={currentChat}
-            //   currentUser={users?._id}
+            <AdminChatBox onlineUsers={onlineUsers}
             />
           </div>
 
