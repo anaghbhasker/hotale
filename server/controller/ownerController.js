@@ -7,6 +7,7 @@ import { generateOwnerToken,verifyToken } from '../middlewares/jwt.js'
 
 import bcrypt from 'bcrypt'
 import mongoose from "mongoose";
+import moment from "moment/moment.js";
 export async function ownerSignup(req,res,next){
     try {
         let obj=req.body
@@ -271,6 +272,88 @@ export async function myPhoto(req,res,next){
     try {
         const owner=await ownermodel.findById(req.params.ownerId)
         res.json({result:owner})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function ownerDashItems(req,res,next){
+    try {
+        const ownerId=req.ownerId
+        let hotelIds= await hotelmodel.aggregate([
+            {
+                $match:{
+                    ownerId:mongoose.Types.ObjectId(ownerId)
+                }
+            },
+            { $project: { _id: 1 } }
+        ])
+        hotelIds = hotelIds.map(obj => obj._id);
+        const bookings=await bookingmodel.aggregate([
+            {
+                $match:{
+                    hotelId:{$in:hotelIds}
+                }
+            }
+        ])
+        const totalPayment=await bookingmodel.aggregate([
+            {
+                $match:{
+                    hotelId:{$in:hotelIds}
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalprice: { $sum: "$totalprice" }
+                }
+            }
+        ])
+        res.json({Totalbooking:bookings.length,Totalhotels:hotelIds.length,Totalamount:totalPayment[0].totalprice})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export async function ownerGraph(req,res,next){
+    try {
+        const ownerId=req.ownerId
+        let hotelIds= await hotelmodel.aggregate([
+            {
+                $match:{
+                    ownerId:mongoose.Types.ObjectId(ownerId)
+                }
+            },
+            { $project: { _id: 1 } }
+        ])
+        hotelIds = hotelIds.map(obj => obj._id);
+        let totalbookings=await bookingmodel.aggregate([
+            {
+                $match:{
+                    hotelId:{$in:hotelIds}
+                }
+            },
+            {
+                $project: { _id:0,createdAt:1, totalprice:1 }
+            }
+        ])
+        totalbookings=totalbookings.filter(obj=>{
+            obj.createdAt = moment(obj.createdAt).format('MMMM');
+            return obj
+        })
+
+        let month = [ 'January', 'February' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August', 'September' , 'October' , 'November' , 'December' ]
+        for (let i = 0; i < month.length; i++) {
+            let f = 0
+            totalbookings.map((obj)=>{
+                if (obj.createdAt === month[i]) {
+                    f = f + obj.totalprice
+                }
+            })
+            month[i] = f
+        }
+        res.json({monthSalery:month})
     } catch (error) {
         console.log(error)
     }

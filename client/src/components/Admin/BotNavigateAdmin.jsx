@@ -23,7 +23,7 @@ function BotNavigateAdmin() {
            <HomeModernIcon className="inline-block mb-1 h-7 " />
             <span className="tab tab-whishlist block text-xs">Hotels</span>
         </Link>
-        <Link to={'/admin'} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <Link to={'/admin/bookings'} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
            <ClipboardDocumentCheckIcon className="inline-block mb-1 h-7 "/>
             <span className="tab tab-account block text-xs">Bookings</span>
         </Link>

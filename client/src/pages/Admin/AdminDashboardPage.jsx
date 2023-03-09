@@ -28,6 +28,7 @@ function AdminDashboardPage() {
             <div className="hoverAnimation w-9 h-9 flex items-center justify-center xl:px-0">
               <BriefcaseIcon className="h-7 text-white" />
             </div>
+              Dashboard
             <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto">
             
             </div>

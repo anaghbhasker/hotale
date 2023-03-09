@@ -230,7 +230,7 @@ function AdminSidebar() {
           </Link>
         </div>
         <div>
-          <Link to={"/admin/"}>
+          <Link to={"/admin/bookings"}>
             <AdminSidebarlinks
               text="Bookings"
               Icon={ClipboardDocumentCheckIcon}

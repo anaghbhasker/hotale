@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BellIcon,UserIcon,HomeModernIcon } from "@heroicons/react/24/solid"
+import { UserIcon,HomeModernIcon } from "@heroicons/react/24/solid"
 import { Email ,DashboardCustomize} from "@mui/icons-material"
 import SidebarLinks from './SidebarLinks';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,11 +28,6 @@ function Sidebar() {
             <div>
             <Link to={'/owner/profileView'}>
                 <SidebarLinks text='My Profile' Icon={UserIcon} active={false}/>
-            </Link>
-            </div>
-            <div>
-            <Link to={'/owner/'}>
-                <SidebarLinks text='Notification' Icon={BellIcon} active={false} />
             </Link>
             </div>
             <div>

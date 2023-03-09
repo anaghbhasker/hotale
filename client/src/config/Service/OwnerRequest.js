@@ -223,3 +223,31 @@ export const postMessage=async(obj)=>{
         return error.response.data.error;
     }
 }
+
+export const ownerDashBoard=async()=>{
+    try {
+        const response=await Axiosinstance.get('/owner/getdashItems',{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const ownerGraph=async ()=>{
+    try {
+        const response=await Axiosinstance.get('/owner/getGraph',{
+            headers: {
+                ownertoken: localStorage.getItem('ownertoken'),
+            },
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

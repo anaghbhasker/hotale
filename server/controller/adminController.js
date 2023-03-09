@@ -3,6 +3,7 @@ import usermodel from "../model/userSchema.js"
 import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from '../model/hotelSchema.js'
 import coupenmodel from '../model/coupenSchema.js';
+import bookingmodel from '../model/bookingSchema.js'
 import { generateAdminToken } from '../middlewares/jwt.js'
 
 
@@ -155,6 +156,28 @@ export async function getAdminDetails(req,res,next){
     try {
         const admin=await adminModel.findById(req.params.adminId)
         res.json({adminDetails:admin})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getAllbookings(req,res,next){
+    try {
+        const bookings=await bookingmodel.find().populate('hotelId').populate('userId')
+        let response = []
+        bookings.forEach((booking) => {
+            const val = {
+                _id: booking._id,
+                check_in: booking.check_in,
+                check_out: booking.check_out,
+                bookingdate: booking.bookingdate,
+                totalprice: booking.totalprice,
+                firstname: booking.userId.username,
+                hotelName: booking.hotelId.hotelname
+            }
+            response.push(val)
+        })
+        res.json({totals:response})
     } catch (error) {
         console.log(error)
     }

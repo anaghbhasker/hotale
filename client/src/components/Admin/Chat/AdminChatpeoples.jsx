@@ -4,7 +4,7 @@ import { AdminContext } from "../../../context/AdminContext";
 
 function AdminChatpeoples({ data, currentAdminId ,onlineUsers}) {
 
-  const { setChat }=useContext(AdminContext)
+  const { setChatAdmin }=useContext(AdminContext)
 
   const [owner, setOwner] = useState();
 
@@ -35,7 +35,7 @@ function AdminChatpeoples({ data, currentAdminId ,onlineUsers}) {
   }, [data, currentAdminId,onlineUsers]);
 
   const showMessage=async()=>{
-    setChat(data)
+    setChatAdmin(data)
   }
   return (
     <>

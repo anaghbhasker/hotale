@@ -204,3 +204,17 @@ export const adminDetails=async(adminId)=>{
         return error.response.data.error;
     }
 }
+
+export const totalBookings=async()=>{
+    try {
+        const response=await Axiosinstance.get('/admin/getAllbookings',{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            }
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

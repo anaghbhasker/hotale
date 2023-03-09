@@ -42,7 +42,7 @@ function OwnerProfilePage() {
                 <div className="hoverAnimation w-9 h-9 flex items-center justify-center xl:px-0">
                 <BriefcaseIcon className="h-7 text-white" />
                 </div>
-                Dashboard
+                Profile
             <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto">
             <BuildingOffice2Icon className="h-10 w-10 rounded-full xl:mr-2.5"/>
                 <div className="hidden xl:inline leading-4">

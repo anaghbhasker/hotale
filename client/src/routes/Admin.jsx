@@ -8,6 +8,7 @@ import AdminShowUsersPage from '../pages/Admin/AdminShowUsersPage'
 import AdminShowHotelPage from '../pages/Admin/AdminShowHotelPage'
 import AdminHotelView from '../pages/Admin/AdminHotelView'
 import ShowMessagePage from '../pages/Admin/ShowMessagePage'
+import AdminBookingDetailsPage from '../pages/Admin/AdminBookingDetailsPage'
 
 function Admin() {
   return (
@@ -32,6 +33,9 @@ function Admin() {
         </Routes>
         <Routes>
           <Route path='/showMessages' element={<ShowMessagePage/>}/>
+        </Routes>
+        <Routes>
+          <Route path='/bookings' element={<AdminBookingDetailsPage/>}/>
         </Routes>
     </div>
   )

@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 function App() {
   const User = lazy(() => import("./routes/User"));
   const [chat, setChat] = React.useState(null);
+  const [chatAdmin,setChatAdmin]=React.useState(null);
   const [socket,SetSocket]=React.useState(io('http://localhost:8800'))
   return (
     <div>
@@ -30,7 +31,7 @@ function App() {
         </AppContext.Provider>
 
         {/* Admin Routes */}
-        <AdminContext.Provider value={{ chat,setChat,socket }}>
+        <AdminContext.Provider value={{ chatAdmin,setChatAdmin,socket }}>
           <Routes>
             <Route path="/admin/*" element={<Admin />} />
           </Routes>

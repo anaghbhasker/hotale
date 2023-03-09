@@ -12,7 +12,7 @@ import { postMessage } from "../../../config/Service/OwnerRequest";
 import { useRef } from "react";
 
 function AdminChatWidget({setSendMessage,recieveMessage}) {
-  const { chat } = useContext(AdminContext);
+  const { chatAdmin } = useContext(AdminContext);
   const ownertoken = localStorage.getItem("adminToken");
   const decoded = jwt_decode(ownertoken);
 
@@ -24,35 +24,35 @@ function AdminChatWidget({setSendMessage,recieveMessage}) {
   const scroll=useRef()
 
   useEffect(()=>{
-    if (recieveMessage !== null && recieveMessage.chatId===chat?._id) {
+    if (recieveMessage !== null && recieveMessage.chatId===chatAdmin?._id) {
       setMessages([...messages,recieveMessage])
     }
-  },[recieveMessage,chat?._id])
+  },[recieveMessage,chatAdmin?._id])
 
   useEffect(() => {
     async function invoke() {
-      const data = await adminGetAllmessages(chat?._id);
+      const data = await adminGetAllmessages(chatAdmin?._id);
       setMessages(data.result);
     }
-    if (chat !== null) invoke();
-  }, [chat]);
+    if (chatAdmin !== null) invoke();
+  }, [chatAdmin]);
 
   useEffect(() => {
     async function invoke() {
-      const ownerId = chat.members.find((id) => id !== decoded._id);
+      const ownerId = chatAdmin.members.find((id) => id !== decoded._id);
       const result = await getOwner(ownerId);
       setOwner(result.ownerDetails);
     }
-    if (chat !== null) invoke();
-  }, [chat, decoded._id]);
+    if (chatAdmin !== null) invoke();
+  }, [chatAdmin, decoded._id]);
 
   useEffect(() => {
     async function invoke() {
       const data = await adminDetails(decoded._id);
       setAdmin(data.adminDetails);
     }
-    if (chat !== null) invoke();
-  }, [chat, decoded._id]);
+    if (chatAdmin !== null) invoke();
+  }, [chatAdmin, decoded._id]);
 
 
   async function handleOnEnter(text) {
@@ -60,14 +60,14 @@ function AdminChatWidget({setSendMessage,recieveMessage}) {
       let obj={
         senderId: decoded._id,
         text:text,
-        chatId:chat?._id
+        chatId:chatAdmin?._id
       }
       const data=await postMessage(obj)
       setMessages([...messages,data.result])
 
       // send message to socket server
     
-      const receiverId = chat?.members.find((id) => id !== decoded._id);
+      const receiverId = chatAdmin?.members.find((id) => id !== decoded._id);
       setSendMessage({...obj,receiverId})
     }
   }
@@ -79,14 +79,14 @@ function AdminChatWidget({setSendMessage,recieveMessage}) {
       let obj={
         senderId: decoded._id,
         text:message,
-        chatId:chat?._id
+        chatId:chatAdmin?._id
       }
       const data=await postMessage(obj)
       setMessages([...messages,data.result])
 
       // send message to socket server
     
-      const receiverId = chat?.members.find((id) => id !== decoded._id);
+      const receiverId = chatAdmin?.members.find((id) => id !== decoded._id);
       setSendMessage({...obj,receiverId})
     }
   }
@@ -99,7 +99,7 @@ function AdminChatWidget({setSendMessage,recieveMessage}) {
 
   return (
     <>
-      {chat ? (
+      {chatAdmin ? (
         <div className="flex flex-col flex-auto h-[90vh] ">
           <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
             <div className="flex flex-col overflow-x-auto h-full mb-4">

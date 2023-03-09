@@ -36,14 +36,6 @@ function AdminShowHotel() {
 
     return (
         <div>
-      <div className="flex pl-4 mt-5">
-        <div className="text-white">
-          <h4 className="text-lg font-semibold">Hotels</h4>
-        </div>
-
-        
-      </div>
-
       <div className="mt-4 ml-4 mr-6">
         <form>
           <label

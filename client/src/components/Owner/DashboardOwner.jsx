@@ -1,6 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+import { ownerDashBoard } from '../../config/Service/OwnerRequest'
+import OwnerChart from './OwnerChart'
 
 function DashboardOwner() {
+
+    const [ownerDash,setOwnerDash]=useState(null)
+
+    useEffect(()=>{
+        async function invoke(){
+            const data=await ownerDashBoard()
+            setOwnerDash(data);
+        }invoke()
+    },[])
+
+
     return (
         <div>
         <div className=" flex  justify-between">
@@ -19,9 +33,8 @@ function DashboardOwner() {
                     BOOKINGS
                     </h5>
                     <h3 className="text-gray-300 text-6xl mb-4">
-                    20
+                    {ownerDash?.Totalbooking}
                     </h3>
-                    <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
                 </div>
                 </div>
             </div>
@@ -36,12 +49,11 @@ function DashboardOwner() {
                 />
                 <div className="p-6 flex flex-col justify-start">
                     <h5 className="text-gray-300 text-xl font-medium mb-2">
-                    ROOMS AVAILABILITY
+                    Total Hotels
                     </h5>
                     <h3 className="text-gray-300 text-6xl mb-4">
-                    6
+                    {ownerDash?.Totalhotels}
                     </h3>
-                    <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
                 </div>
                 </div>
             </div>
@@ -59,20 +71,13 @@ function DashboardOwner() {
                     <h5 className="text-gray-300 text-xl font-medium mb-2">
                     TOTAL PAYMENTS
                     </h5>
-                    <h3 className="text-gray-300 text-6xl mb-4">
-                    15
+                    <h3 className="text-gray-300 text-2xl mb-4">
+                    {(ownerDash?.Totalamount*90)/100}
                     </h3>
-                    <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
                 </div>
                 </div>
             </div>
-
-
-    
-
-            
-
-
+            <OwnerChart/>
             </div>
         </div>
         </div>
