@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ownerDashboard } from "../../config/Service/AdminRequest";
+import { adminDash, ownerDashboard } from "../../config/Service/AdminRequest";
 import owner from '../../Assets/owners.jfif'
+import AdminChart from "./AdminChart";
 
 function AdminDashboard() {
   const navigate = useNavigate();
+  const [dashData,setdashData]=useState()
   useEffect(() => {
     async function invoke() {
       const data = await ownerDashboard();
@@ -14,6 +16,13 @@ function AdminDashboard() {
     }
     invoke();
   }, [navigate]);
+
+  useEffect(()=>{
+    async function invoke(){
+      const data=await adminDash()
+      setdashData(data);
+    }invoke()
+  },[])
   return (
     <div>
       <div className=" flex  justify-between">
@@ -29,8 +38,7 @@ function AdminDashboard() {
                 <h5 className="text-gray-300 text-xl font-medium mb-2">
                   USERS
                 </h5>
-                <h3 className="text-gray-300 text-6xl mb-4">20</h3>
-                <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
+                <h3 className="text-gray-300 text-6xl mb-4">{dashData?.users}</h3>
               </div>
             </div>
           </div>
@@ -46,8 +54,7 @@ function AdminDashboard() {
                 <h5 className="text-gray-300 text-xl font-medium mb-2">
                   OWNERS
                 </h5>
-                <h3 className="text-gray-300 text-6xl mb-4">6</h3>
-                <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
+                <h3 className="text-gray-300 text-6xl mb-4">{dashData?.owners}</h3>
               </div>
             </div>
           </div>
@@ -64,8 +71,7 @@ function AdminDashboard() {
                 <h5 className="text-gray-300 text-xl font-medium mb-2">
                   HOTELS
                 </h5>
-                <h3 className="text-gray-300 text-6xl mb-4">6</h3>
-                <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
+                <h3 className="text-gray-300 text-6xl mb-4">{dashData?.hotels}</h3>
               </div>
             </div>
           </div>
@@ -79,17 +85,16 @@ function AdminDashboard() {
                 src="https://images.ctfassets.net/pdf29us7flmy/6CUCq15966GPkPR9gJbPSP/2fd7431ed38ec4fb8ca16365868e7c8e/Virtual_Interview_8.png"
                 alt=""
               />
-              <div className="p-6 flex flex-col justify-start">
+              <div className="p-6 flex flex-col  justify-center">
                 <h5 className="text-gray-300 text-xl font-medium mb-2">
-                  TOTAL PAYMENTS
+                  Revanue
                 </h5>
-                <h3 className="text-gray-300 text-6xl mb-4">15</h3>
-                <p className="text-gray-300 text-xs">Last updated 3 mins ago</p>
+                <h3 className="text-gray-300 text-xl mb-4">{(dashData?.totalprice*10/100)}</h3>
               </div>
             </div>
           </div>
+        <AdminChart/>
 
-      
 
         </div>
       </div>

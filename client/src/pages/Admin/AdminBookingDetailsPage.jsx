@@ -34,7 +34,6 @@ function AdminBookingDetailsPage() {
             <Logout onClick={logout} className={" mt-4 rounded-full xl:mr-2.5 cursor-pointer"}/>
         </div>
         <AdminShowBookings/>
-        <div className="pb-72"></div>
         </div>
         <BotNavigateAdmin/>
       </main>

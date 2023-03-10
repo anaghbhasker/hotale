@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { Dialog, Transition } from "@headlessui/react";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import moment from "moment/moment";
@@ -234,6 +235,15 @@ function AdminSidebar() {
             <AdminSidebarlinks
               text="Bookings"
               Icon={ClipboardDocumentCheckIcon}
+              active={false}
+            />
+          </Link>
+        </div>
+        <div>
+          <Link to={"/admin/notification"}>
+            <AdminSidebarlinks
+              text="Notification"
+              Icon={NotificationImportantIcon}
               active={false}
             />
           </Link>

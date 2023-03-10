@@ -218,3 +218,59 @@ export const totalBookings=async()=>{
         return error.response.data.error;
     }
 }
+
+export const adminDash=async()=>{
+    try {
+        const response=await Axiosinstance.get('/admin/getDash',{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            }
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const adminChart=async()=>{
+    try {
+        const response=await Axiosinstance.get('/admin/adminChart',{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            }
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const allNotification=async()=>{
+    try {
+        const response=await Axiosinstance.get('/admin/allNotification',{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            }
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
+export const deNoti=async(id)=>{
+    try {
+        const response=await Axiosinstance.get(`/admin/deleteNotification/${id}`,{
+            headers: {
+                adminToken: localStorage.getItem('adminToken'),
+            }
+        })
+        const data=response.data
+        if(data)return data
+    } catch (error) {
+        return error.response.data.error;
+    }
+}

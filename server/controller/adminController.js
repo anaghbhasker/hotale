@@ -4,7 +4,9 @@ import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from '../model/hotelSchema.js'
 import coupenmodel from '../model/coupenSchema.js';
 import bookingmodel from '../model/bookingSchema.js'
+import notificationmodal from '../model/notificationSchema.js'
 import { generateAdminToken } from '../middlewares/jwt.js'
+import moment from "moment/moment.js";
 
 
 export async function adminLogin(req,res,next){
@@ -178,6 +180,70 @@ export async function getAllbookings(req,res,next){
             response.push(val)
         })
         res.json({totals:response})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getadminDash(req,res,next){
+    try {
+        const users=await usermodel.find().count()
+        const owners=await ownermodel.find().count()
+        const hotels=await hotelmodel.find().count()
+        const totalBookings=await bookingmodel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalprice: { $sum: "$totalprice" }
+                }
+            }
+        ])
+        res.json({users:users,owners:owners,hotels:hotels,totalprice:totalBookings[0].totalprice})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function adminChart(req,res,next){
+    try {
+        let bookings=await bookingmodel.aggregate([
+            {
+                $project:{ _id:0,createdAt:1, totalprice:1 }
+            }
+        ])
+        bookings=bookings.filter(obj=>{
+            obj.createdAt = moment(obj.createdAt).format('MMMM');
+            return obj
+        })
+        let month = [ 'January', 'February' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August', 'September' , 'October' , 'November' , 'December' ]
+        for (let i = 0; i < month.length; i++) {
+            let f = 0
+            bookings.map((obj)=>{
+                if (obj.createdAt === month[i]) {
+                    f = f + obj.totalprice
+                }
+            })
+            month[i] = f
+        }
+        res.json({getChart:month})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getNotification(req,res,next){
+    try {
+        const notification=await notificationmodal.find()
+        res.json({notification:notification})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function deleteNotification(req,res,next){
+    try {
+        await notificationmodal.findByIdAndDelete(req.params.notifiId)
+        res.json({status:"success"})
     } catch (error) {
         console.log(error)
     }

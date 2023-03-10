@@ -2,6 +2,7 @@ import ownermodel from "../model/ownerSchema.js";
 import hotelmodel from "../model/hotelSchema.js";
 import bookingmodel from "../model/bookingSchema.js"
 import adminModel from "../model/adminSchema.js";
+import notificationmodel from "../model/notificationSchema.js";
 import { otpSend,otpVerify } from '../utils/twilio.js'
 import { generateOwnerToken,verifyToken } from '../middlewares/jwt.js'
 
@@ -113,6 +114,11 @@ export async function addHotel(req,res,next){
             photo3:obj.photo3,
             fesility:obj.fesility
         })
+        await notificationmodel.create({
+            message:"Added Completed",
+            notification:`Owner have successfully added the hotel.Please check the `+obj.hotelname+"...",
+            status:"success"
+        })
         res.json({status:"success",hotelId:hotel._id})
     } catch (error) {
         console.log(error)
@@ -167,6 +173,11 @@ export async function editHotel(req,res,next){
             zip:obj.zip,
             fesility:obj.fesility
         })
+        await notificationmodel.create({
+            message:"Updated the hotel",
+            notification:`Owner have made some changes to the `+obj.hotelname+"...",
+            status:"warning"
+        })
         res.json({status:"success"})
     } catch (error) {
         console.log(error)
@@ -176,7 +187,13 @@ export async function editHotel(req,res,next){
 export async function deleteHotel(req,res,next){
     try {
         const hotelId=req.params.id
+        const hotel=await hotelmodel.findById(hotelId)
         await hotelmodel.findByIdAndDelete(hotelId)
+        await notificationmodel.create({
+            message:"Delete the hotel",
+            notification:"owner has been deleted their "+hotel.hotelname+", the hotel listing has been removed from our platform",
+            status:"danger"
+        })
         res.json({status:"success"})
     } catch (error) {
         console.log(error)
@@ -219,6 +236,11 @@ export async function editProfile(req,res,next){
             zip:obj.zip,
             profilephoto:obj.profilephoto,
             coverphoto:obj.coverphoto,
+        })
+        await notificationmodel.create({
+            message:"Updated the owner profile",
+            notification:"This is to inform you that "+obj.firstname+" "+ obj.lastname +" has updated their profile on platform",
+            status:"warning"
         })
         res.json({status:"success"})
     } catch (error) {

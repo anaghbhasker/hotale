@@ -1,24 +1,23 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom'
 import { BriefcaseIcon } from '@heroicons/react/24/solid'
 import { Logout } from '@mui/icons-material'
-
-import { useNavigate } from 'react-router-dom'
-
 import AdminSidebar from '../../components/Admin/AdminSidebar'
 import BotNavigateAdmin from '../../components/Admin/BotNavigateAdmin'
-import AdminShowHotel from '../../components/Admin/AdminShowHotel'
+import Notification from '../../components/Admin/Notification'
 
-function AdminShowHotelPage() {
-
+function AdminNotification() {
 
     const navigate=useNavigate()
+    
 
+    
 
     const logout=()=>{
         localStorage.removeItem('adminToken')
         navigate('/admin/login')
     }
+
     return (
         <>
       <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto">
@@ -28,13 +27,16 @@ function AdminShowHotelPage() {
             <div className="hoverAnimation w-9 h-9 flex items-center justify-center xl:px-0">
               <BriefcaseIcon className="h-7 text-white" />
             </div>
-            Hotels
+              Notification
             <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto">
             
             </div>
             <Logout onClick={logout} className={" mt-4 rounded-full xl:mr-2.5 cursor-pointer"}/>
+        </div >
+        <div className=''>
+
+        <Notification/>
         </div>
-        <AdminShowHotel/>
         </div>
         <BotNavigateAdmin/>
       </main>
@@ -42,4 +44,4 @@ function AdminShowHotelPage() {
     )
 }
 
-export default AdminShowHotelPage
+export default AdminNotification

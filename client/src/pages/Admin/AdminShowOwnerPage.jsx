@@ -32,7 +32,6 @@ function AdminShowOwnerPage() {
                 <Logout onClick={logout} className={" mt-4 rounded-full xl:mr-2.5 cursor-pointer"}/>
             </div>
             <AdminShowOwners/>
-            <div className="pb-72"></div>
             </div>
             <BotNavigateAdmin/>
         </main>
