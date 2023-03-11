@@ -58,11 +58,11 @@ app.use(cookieParser())
 
 //////Routes
 
-app.use('/message',messageRoute)
-app.use('/chat',chatRouter)
-app.use('/admin',adminRouter)
-app.use('/owner',ownerRouter)
-app.use('/',userRouter)
+app.use('/api/message',messageRoute)
+app.use('/api/chat',chatRouter)
+app.use('/api/admin',adminRouter)
+app.use('/api/owner',ownerRouter)
+app.use('/api/',userRouter)
 
 
 

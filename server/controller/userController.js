@@ -68,7 +68,6 @@ export async function login(req,res,next){
         if (user) {
             const isMatch = await bcrypt.compare(obj.password,user.password)
             if (isMatch===true) {
-
                 if (!user.isBanned) {
                     if(!user.isVerify){
                         const token=await tokenmodel.create({
