@@ -6,13 +6,14 @@ import Owner from "./routes/Owner";
 import { AppContext } from "./context/AppContext";
 import { AdminContext } from "./context/AdminContext";
 import { io } from "socket.io-client";
+import Hotale404Page from "./pages/Hotale404Page";
 // import User from "./routes/User";
 
 function App() {
   const User = lazy(() => import("./routes/User"));
   const [chat, setChat] = React.useState(null);
   const [chatAdmin,setChatAdmin]=React.useState(null);
-  const [socket,SetSocket]=React.useState(io('http://localhost:8800'))
+  const [socket,SetSocket]=React.useState(io('wss://api.bigmarts.shop/'))
   return (
     <div>
       <Router>
@@ -36,6 +37,11 @@ function App() {
             <Route path="/admin/*" element={<Admin />} />
           </Routes>
         </AdminContext.Provider>
+
+        {/* 404 page */}
+        <Routes>
+          <Route path="*" element={<Hotale404Page/>} />
+        </Routes>
       </Router>
     </div>
   );
