@@ -39,9 +39,9 @@ connectDb(DATABASE_URL)
 //////  CONFIGURATION
 
 app.use(cors({
-    origin: [process.env.FRONTEND_URL],
-    methods:["GET","POST","DELETE","PUT","PATCH"],
-    credentials:true,
+    // origin: [process.env.FRONTEND_URL],
+    // methods:["GET","POST","DELETE","PUT","PATCH"],
+    // credentials:true,
 }));
 
 
