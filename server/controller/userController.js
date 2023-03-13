@@ -99,7 +99,7 @@ export async function login(req,res,next){
 
 export async function verifyEmail(req,res,next){
     try {
-        const user=await usermodel.findOne({_id:req.params.id})
+        let user=await usermodel.findOne({_id:req.params.id})
         if(!user)return res.status(400).send({message:"Invalid link"})
 
         const token=await tokenmodel.findOne({
@@ -107,11 +107,14 @@ export async function verifyEmail(req,res,next){
             token:req.params.token
         })
         if(!token)return res.status(400).send({message:"invalid link"})
-        await usermodel.updateOne({_id:user._id,isVerify:true})
-        await token.remove()
+
+        user.isVerify=true;
+        await user.save();
+        await token.remove();
 
         res.status(200).send({message:"Email verified successfully"}) 
     } catch (error) {
+        console.log(error);
         res.status(500).send({message:"Internal Server Error"})
     }
 }
