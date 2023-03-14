@@ -1,5 +1,5 @@
 import  express  from "express";
-import { addCoupen, admInBannHotel, adminChart, adminLogin, dashBoard, deleteNotification, getadminDash, getAdminDetails, getAllbookings, getHotel, getNotification, getOwner, getOwners, getThatHotel, getUsers, hotelStatus, ownerBlk, userBlk } from "../controller/adminController.js";
+import { addCoupen, admInBannHotel, adminChart, adminLogin, dashBoard, deleteNotification, getadminDash, getAdminDetails, getAllbookings, getHotel, getNotification, getOwner, getOwners, getThatHotel, getUsers, hotelStatus, ownerBlk, thatBookings, userBlk } from "../controller/adminController.js";
 import { adminJwt } from "../middlewares/jwt.js";
 const router=express.Router();
 
@@ -21,5 +21,6 @@ router.get('/getDash',adminJwt,getadminDash)
 router.get('/adminChart',adminJwt,adminChart)
 router.get('/allNotification',adminJwt,getNotification)
 router.get('/deleteNotification/:notifiId',adminJwt,deleteNotification)
+router.get('/thatBooking/:hotelId',adminJwt,thatBookings)
 
 export default router

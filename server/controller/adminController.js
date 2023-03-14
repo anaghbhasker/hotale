@@ -248,3 +248,12 @@ export async function deleteNotification(req,res,next){
         console.log(error)
     }
 }
+
+export async function thatBookings(req,res,next){
+    try {
+        const thatBookings=await bookingmodel.find({hotelId:req.params.hotelId})
+        res.json({thatBookings:thatBookings})
+    } catch (error) {
+        console.log(error)
+    }
+}
